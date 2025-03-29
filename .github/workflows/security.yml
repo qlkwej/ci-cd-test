@@ -41,14 +41,23 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "18"
-          cache: "npm"
+
+      - name: Generate package-lock.json
+        run: npm install --package-lock-only
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+
+      - name: Create reports directory
+        run: mkdir -p ${{ env.REPORT_PATH }}
 
       - name: Install Trivy
         run: |
           curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.48.0
-
-      - name: Create reports directory
-        run: mkdir -p ${{ env.REPORT_PATH }}
 
       - name: Install dependencies and run audit
         run: |
