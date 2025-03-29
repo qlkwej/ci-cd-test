@@ -1,0 +1,57 @@
+Running with gitlab-runner 17.10.0~pre.41.g5c23fd8e (5c23fd8e)
+  on blue-2.saas-linux-small-amd64.runners-manager.gitlab.com/default XxUrkriX, system ID: s_f46a988edce4
+Preparing the "docker+machine" executor
+00:06
+Using Docker executor with image alpine:3.18 ...
+Pulling docker image alpine:3.18 ...
+Using docker image sha256:802c91d5298192c0f3a08101aeb5f9ade2992e22c9e27fa8b88eab82602550d0 for alpine:3.18 with digest alpine@sha256:de0eb0b3f2a47ba1eb89389859a9bd88b28e82f5826b6969ad604979713c2d4f ...
+Preparing environment
+00:01
+Running on runner-xxurkrix-project-68482359-concurrent-0 via runner-xxurkrix-s-l-s-amd64-1743253344-4b9e9fe9...
+Getting source from Git repository
+00:03
+Fetching changes with git depth set to 1...
+Initialized empty Git repository in /builds/qlkwej-org/test-ci-cd-juice-shop/.git/
+Created fresh repository.
+Checking out 42a2c51f as detached HEAD (ref is master)...
+Skipping Git submodules setup
+$ git remote set-url origin "${CI_REPOSITORY_URL}" || echo 'Not a git repository; skipping'
+Downloading artifacts
+00:20
+Downloading artifacts for build (9564741198)...
+Downloading artifacts from coordinator... ok        host=storage.googleapis.com id=9564741198 responseStatus=200 OK token=66_6TVwCz
+Downloading artifacts for container-scan (9564741199)...
+Downloading artifacts from coordinator... ok        host=storage.googleapis.com id=9564741199 responseStatus=200 OK token=66_6TVwCz
+Downloading artifacts for dast-start (9564741201)...
+Downloading artifacts from coordinator... ok        host=storage.googleapis.com id=9564741201 responseStatus=200 OK token=66_6TVwCz
+Downloading artifacts for source-scan (9564741197)...
+Downloading artifacts from coordinator... ok        host=storage.googleapis.com id=9564741197 responseStatus=200 OK token=66_6TVwCz
+Executing "step_script" stage of the job script
+00:01
+Using docker image sha256:802c91d5298192c0f3a08101aeb5f9ade2992e22c9e27fa8b88eab82602550d0 for alpine:3.18 with digest alpine@sha256:de0eb0b3f2a47ba1eb89389859a9bd88b28e82f5826b6969ad604979713c2d4f ...
+$ echo "Consolidating all security reports and artifacts..."
+Consolidating all security reports and artifacts...
+$ apk add --no-cache jq
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.18/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.18/community/x86_64/APKINDEX.tar.gz
+(1/2) Installing oniguruma (6.9.8-r1)
+(2/2) Installing jq (1.6-r4)
+Executing busybox-1.36.1-r7.trigger
+OK: 8 MiB in 17 packages
+$ echo "Verifying required security reports..." # collapsed multi-line command
+Verifying required security reports...
+/bin/sh: eval: line 216: syntax error: unexpected "("
+Uploading artifacts for failed job
+00:01
+Uploading artifacts...
+WARNING: gl-dast-report.json: no matching files. Ensure that the artifact path is relative to the working directory (/builds/qlkwej-org/test-ci-cd-juice-shop) 
+ERROR: No files to upload                          
+Uploading artifacts...
+WARNING: gl-container-scanning.json: no matching files. Ensure that the artifact path is relative to the working directory (/builds/qlkwej-org/test-ci-cd-juice-shop) 
+ERROR: No files to upload                          
+Uploading artifacts...
+WARNING: gl-dependency-scanning.json: no matching files. Ensure that the artifact path is relative to the working directory (/builds/qlkwej-org/test-ci-cd-juice-shop) 
+ERROR: No files to upload                          
+Cleaning up project directory and file based variables
+00:01
+ERROR: Job failed: exit code 2

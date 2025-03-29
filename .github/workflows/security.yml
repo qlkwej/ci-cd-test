@@ -1,0 +1,376 @@
+name: Security Pipeline
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+env:
+  # Base configuration
+  NODE_OPTIONS: "--max-old-space-size=4096"
+
+  # Report paths
+  REPORT_PATH: "reports"
+  CONTAINER_SCAN_REPORT: "reports/trivy-vulns.json"
+  DOCKERFILE_SCAN_REPORT: "reports/trivy-dockerfile.json"
+  COMPLIANCE_REPORT: "reports/trivy-compliance.json"
+  NPM_AUDIT_REPORT: "reports/npm-audit.json"
+  NPM_SBOM_REPORT: "reports/npm-sbom.cdx.json"
+  DAST_REPORT: "reports/zap-report.json"
+  SAST_REPORT: "reports/codeql-results.sarif"
+  SECRET_REPORT: "reports/gitleaks-report.json"
+
+  # Trivy Configuration
+  TRIVY_NO_PROGRESS: "true"
+  TRIVY_SEVERITY: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
+
+  # DefectDojo Configuration
+  DEFECTDOJO_URL: ${{ secrets.DEFECTDOJO_URL }}
+  PRODUCT_NAME: "Juice Shop"
+  ENGAGEMENT_NAME: "Security Pipeline"
+
+jobs:
+  # Static Analysis
+  static-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.48.0
+
+      - name: Create reports directory
+        run: mkdir -p ${{ env.REPORT_PATH }}
+
+      - name: Install dependencies and run audit
+        run: |
+          echo "Installing dependencies..."
+          # Generate package-lock.json first
+          npm install --package-lock-only --ignore-scripts
+
+          # Then do full install without scripts
+          npm install --ignore-scripts
+
+          echo "Running npm audit..."
+          npm audit --json > "${{ env.NPM_AUDIT_REPORT }}" || true
+
+          # Show audit summary
+          if [ -f "${{ env.NPM_AUDIT_REPORT }}" ]; then
+            echo "NPM Audit Summary:"
+            jq -r '
+              if has("auditReportVersion") then
+                .metadata.vulnerabilities | 
+                "Critical: \(.critical // 0)\nHigh: \(.high // 0)\nModerate: \(.moderate // 0)\nLow: \(.low // 0)\nInfo: \(.info // 0)\nTotal: \(.total // 0)"
+              else
+                "No vulnerabilities found"
+              end
+            ' "${{ env.NPM_AUDIT_REPORT }}"
+          fi
+
+      - name: Generate SBOM
+        run: |
+          echo "Generating SBOM with Trivy..."
+          trivy fs \
+            --format cyclonedx \
+            --output "${{ env.NPM_SBOM_REPORT }}" \
+            --scanners vuln \
+            .
+
+          if [ ! -f "${{ env.NPM_SBOM_REPORT }}" ]; then
+            echo "ERROR: Failed to generate SBOM"
+            exit 1
+          fi
+
+          echo "SBOM Summary:"
+          jq -r '"Total components: \(if has("components") then .components | length else 0 end)"' "${{ env.NPM_SBOM_REPORT }}"
+
+      # Run CodeQL Analysis
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+          queries: security-and-quality
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:javascript"
+          output: ${{ env.SAST_REPORT }}
+
+      - name: Run Secret Detection
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITLEAKS_CONFIG: .gitleaks.toml
+        with:
+          config-path: .gitleaks.toml
+          report-format: json
+          report-path: ${{ env.SECRET_REPORT }}
+          verbose: true
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: static-analysis-reports
+          path: |
+            ${{ env.REPORT_PATH }}/npm-*.json
+            ${{ env.REPORT_PATH }}/codeql-results.sarif
+            ${{ env.REPORT_PATH }}/gitleaks-report.json
+            package-lock.json
+          retention-days: 1
+
+  # Build and Container Security
+  build:
+    runs-on: ubuntu-latest
+    needs: static-analysis
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.48.0
+
+      - name: Create reports directory
+        run: mkdir -p ${{ env.REPORT_PATH }}/docker
+
+      - name: Build container
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          load: true
+          tags: juice-shop:${{ github.sha }}
+          build-args: |
+            NODE_OPTIONS=--max-old-space-size=4096
+
+      - name: Run Security Scans
+        run: |
+          # Dockerfile scan
+          trivy config \
+            --format json \
+            --output "${{ env.DOCKERFILE_SCAN_REPORT }}" \
+            --severity ${{ env.TRIVY_SEVERITY }} \
+            Dockerfile
+
+          # Container scan
+          trivy image \
+            --format json \
+            --output "${{ env.CONTAINER_SCAN_REPORT }}" \
+            --severity ${{ env.TRIVY_SEVERITY }} \
+            juice-shop:${{ github.sha }}
+
+          # Compliance scan
+          trivy image \
+            --compliance docker-cis-1.6.0 \
+            --format json \
+            --output "${{ env.COMPLIANCE_REPORT }}" \
+            juice-shop:${{ github.sha }}
+
+      - name: Save container for DAST
+        run: |
+          docker save juice-shop:${{ github.sha }} > ${{ env.REPORT_PATH }}/docker/juice-shop.tar
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: container-security-reports
+          path: |
+            ${{ env.REPORT_PATH }}/docker/juice-shop.tar
+            ${{ env.REPORT_PATH }}/trivy-*.json
+          retention-days: 1
+
+  # Dynamic Analysis
+  dast:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download container artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: container-security-reports
+          path: ${{ env.REPORT_PATH }}
+
+      - name: Create Network
+        run: docker network create dast-network
+
+      - name: Load container
+        run: docker load < ${{ env.REPORT_PATH }}/docker/juice-shop.tar
+
+      - name: Start Application
+        run: |
+          echo "Starting application container..."
+          docker run -d --name juice-shop --network dast-network juice-shop:${{ github.sha }}
+
+          echo "Waiting for application to be ready..."
+          timeout=60
+          while ! curl -s --connect-timeout 5 http://juice-shop:3000 > /dev/null; do
+            ((timeout--))
+            if [ $timeout -eq 0 ]; then
+              echo "ERROR: Application failed to start within 60 seconds"
+              docker logs juice-shop
+              exit 1
+            fi
+            echo "Waiting for application... (${timeout}s remaining)"
+            sleep 1
+          done
+          echo "Application is ready!"
+
+      - name: Run ZAP Scan
+        uses: zaproxy/action-baseline@v0.10.0
+        with:
+          target: "http://juice-shop:3000"
+          docker_name: "ghcr.io/zaproxy/zaproxy:stable"
+          cmd_options: "-I -m 5"
+          allow_issue_writing: false
+          format: json
+          output_path: ${{ env.DAST_REPORT }}
+
+      - name: Upload DAST Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: dast-report
+          path: ${{ env.DAST_REPORT }}
+          retention-days: 1
+
+      - name: Cleanup
+        if: always()
+        run: |
+          docker rm -f juice-shop || true
+          docker network rm dast-network || true
+
+  # Report Consolidation and DefectDojo Integration
+  report:
+    runs-on: ubuntu-latest
+    needs: [static-analysis, build, dast]
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: ${{ env.REPORT_PATH }}
+
+      - name: Install curl and jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl jq
+
+      - name: Create DefectDojo Engagement
+        run: |
+          # Get Product ID or create if not exists
+          PRODUCT_ID=$(curl -s -X GET \
+            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+            -H "Accept: application/json" \
+            "${DEFECTDOJO_URL}/api/v2/products/?name=${PRODUCT_NAME}" | \
+            jq -r '.results[0].id // empty')
+
+          if [ -z "$PRODUCT_ID" ]; then
+            PRODUCT_ID=$(curl -s -X POST \
+              -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+              -H "Content-Type: application/json" \
+              -H "Accept: application/json" \
+              "${DEFECTDOJO_URL}/api/v2/products/" \
+              -d "{\"name\":\"${PRODUCT_NAME}\",\"description\":\"${PRODUCT_NAME} Security Pipeline\"}" | \
+              jq -r '.id')
+          fi
+
+          # Create Engagement
+          ENGAGEMENT_ID=$(curl -s -X POST \
+            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/json" \
+            "${DEFECTDOJO_URL}/api/v2/engagements/" \
+            -d "{
+              \"name\":\"${ENGAGEMENT_NAME}\",
+              \"product\":${PRODUCT_ID},
+              \"target_start\":\"$(date -I)\",
+              \"target_end\":\"$(date -I)\",
+              \"status\":\"In Progress\"
+            }" | jq -r '.id')
+
+          echo "ENGAGEMENT_ID=${ENGAGEMENT_ID}" >> $GITHUB_ENV
+
+      - name: Import SAST Results
+        run: |
+          curl -X POST \
+            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+            -H "Accept: application/json" \
+            -F "scan_type=SARIF" \
+            -F "file=@${SAST_REPORT}" \
+            -F "engagement=${ENGAGEMENT_ID}" \
+            -F "close_old_findings=true" \
+            "${DEFECTDOJO_URL}/api/v2/import-scan/"
+
+      - name: Import DAST Results
+        run: |
+          curl -X POST \
+            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+            -H "Accept: application/json" \
+            -F "scan_type=ZAP Scan" \
+            -F "file=@${DAST_REPORT}" \
+            -F "engagement=${ENGAGEMENT_ID}" \
+            -F "close_old_findings=true" \
+            "${DEFECTDOJO_URL}/api/v2/import-scan/"
+
+      - name: Import Container Scan Results
+        run: |
+          curl -X POST \
+            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+            -H "Accept: application/json" \
+            -F "scan_type=Trivy Scan" \
+            -F "file=@${CONTAINER_SCAN_REPORT}" \
+            -F "engagement=${ENGAGEMENT_ID}" \
+            -F "close_old_findings=true" \
+            "${DEFECTDOJO_URL}/api/v2/import-scan/"
+
+      - name: Import Dependency Scan Results
+        run: |
+          curl -X POST \
+            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+            -H "Accept: application/json" \
+            -F "scan_type=NPM Audit Scan" \
+            -F "file=@${NPM_AUDIT_REPORT}" \
+            -F "engagement=${ENGAGEMENT_ID}" \
+            -F "close_old_findings=true" \
+            "${DEFECTDOJO_URL}/api/v2/import-scan/"
+
+      - name: Generate Summary Report
+        run: |
+          {
+            echo "# Security Scan Summary"
+            echo "## Vulnerability Counts"
+            
+            # DAST findings
+            echo "### DAST Findings"
+            jq -r '.site[0].alerts | group_by(.riskcode) | map({risk: (if .[0].riskcode == "3" then "High" elif .[0].riskcode == "2" then "Medium" elif .[0].riskcode == "1" then "Low" else "Info" end), count: length}) | .[] | "* \(.risk): \(.count)"' ${{ env.DAST_REPORT }} 2>/dev/null || echo "* No findings"
+            
+            # Container vulnerabilities
+            echo -e "\n### Container Vulnerabilities"
+            jq -r '.Results | map(.Vulnerabilities // []) | flatten | group_by(.Severity) | map({severity: .[0].Severity, count: length}) | .[] | "* \(.severity): \(.count)"' ${{ env.CONTAINER_SCAN_REPORT }} 2>/dev/null || echo "* No findings"
+            
+            # npm vulnerabilities
+            echo -e "\n### Dependency Vulnerabilities"
+            jq -r 'if has("auditReportVersion") then .metadata.vulnerabilities | "* Critical: \(.critical)\n* High: \(.high)\n* Moderate: \(.moderate)\n* Low: \(.low)\n* Info: \(.info // 0)" else "* No findings" end' ${{ env.NPM_AUDIT_REPORT }} 2>/dev/null || echo "* No findings"
+            
+            echo -e "\n## DefectDojo Integration"
+            echo "* Results uploaded to: ${DEFECTDOJO_URL}/engagement/${ENGAGEMENT_ID}"
+          } > ${{ env.REPORT_PATH }}/security-summary.md
+
+      - name: Upload Final Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-summary
+          path: ${{ env.REPORT_PATH }}/security-summary.md
+          retention-days: 30

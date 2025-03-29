@@ -1,0 +1,177 @@
+unning with gitlab-runner 17.10.0~pre.41.g5c23fd8e (5c23fd8e)
+  on blue-4.saas-linux-small-amd64.runners-manager.gitlab.com/default J2nyww-s, system ID: s_cf1798852952
+Preparing the "docker+machine" executor
+00:31
+Using Docker executor with image docker:20.10-dind ...
+Starting service docker:20.10-dind...
+Pulling docker image docker:20.10-dind ...
+Using docker image sha256:c0e053541b0eec2ee002f3862daedf169d40ff5e65d2a11206ebb1dd883acc13 for docker:20.10-dind with digest docker@sha256:af96c680a7e1f853ebdd50c1e0577e5df4089b033102546dd6417419564df3b5 ...
+Waiting for services to be up and running (timeout 30 seconds)...
+Using docker image sha256:c0e053541b0eec2ee002f3862daedf169d40ff5e65d2a11206ebb1dd883acc13 for docker:20.10-dind with digest docker@sha256:af96c680a7e1f853ebdd50c1e0577e5df4089b033102546dd6417419564df3b5 ...
+Preparing environment
+00:01
+Running on runner-j2nyww-s-project-68482359-concurrent-0 via runner-j2nyww-s-s-l-s-amd64-1743263189-64898818...
+Getting source from Git repository
+00:03
+Fetching changes with git depth set to 1...
+Initialized empty Git repository in /builds/qlkwej-org/test-ci-cd-juice-shop/.git/
+Created fresh repository.
+Checking out 1cb2ace5 as detached HEAD (ref is master)...
+Skipping Git submodules setup
+$ git remote set-url origin "${CI_REPOSITORY_URL}" || echo 'Not a git repository; skipping'
+Downloading artifacts
+00:12
+Downloading artifacts for build (9565299952)...
+Downloading artifacts from coordinator... ok        host=storage.googleapis.com id=9565299952 responseStatus=200 OK token=66_DY67g8
+Executing "step_script" stage of the job script
+01:05
+Using docker image sha256:c0e053541b0eec2ee002f3862daedf169d40ff5e65d2a11206ebb1dd883acc13 for docker:20.10-dind with digest docker@sha256:af96c680a7e1f853ebdd50c1e0577e5df4089b033102546dd6417419564df3b5 ...
+$ apk add --no-cache curl jq
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.18/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.18/community/x86_64/APKINDEX.tar.gz
+(1/9) Installing brotli-libs (1.0.9-r14)
+(2/9) Installing libunistring (1.1-r1)
+(3/9) Installing libidn2 (2.3.4-r1)
+(4/9) Installing nghttp2-libs (1.57.0-r0)
+(5/9) Installing libpsl (0.21.5-r0)
+(6/9) Installing libcurl (8.12.1-r0)
+(7/9) Installing curl (8.12.1-r0)
+(8/9) Installing oniguruma (6.9.8-r1)
+(9/9) Installing jq (1.6-r4)
+Executing busybox-1.36.0-r9.trigger
+OK: 36 MiB in 65 packages
+$ docker pull ${ZAP_IMAGE}
+Using default tag: latest
+latest: Pulling from zaproxy/zap-stable
+6e909acdb790: Pulling fs layer
+61692d590ec6: Pulling fs layer
+f239505ee98c: Pulling fs layer
+da01c5e8798e: Pulling fs layer
+817b5d835103: Pulling fs layer
+33773805f4df: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+61a50b46783b: Pulling fs layer
+986e74093732: Pulling fs layer
+034c4cd9adf7: Pulling fs layer
+38a6ac6eb429: Pulling fs layer
+c81c3cf5e4e9: Pulling fs layer
+9becf3373b2c: Pulling fs layer
+56401076b06e: Pulling fs layer
+fac13dfbc748: Pulling fs layer
+d36f69a68fac: Pulling fs layer
+b7c8ecb4e3bf: Pulling fs layer
+608429887a4c: Pulling fs layer
+a0d8adf04160: Pulling fs layer
+5df1d496e000: Pulling fs layer
+da01c5e8798e: Waiting
+817b5d835103: Waiting
+33773805f4df: Waiting
+4f4fb700ef54: Waiting
+61a50b46783b: Waiting
+986e74093732: Waiting
+034c4cd9adf7: Waiting
+38a6ac6eb429: Waiting
+c81c3cf5e4e9: Waiting
+9becf3373b2c: Waiting
+56401076b06e: Waiting
+fac13dfbc748: Waiting
+d36f69a68fac: Waiting
+b7c8ecb4e3bf: Waiting
+608429887a4c: Waiting
+a0d8adf04160: Waiting
+5df1d496e000: Waiting
+6e909acdb790: Verifying Checksum
+6e909acdb790: Download complete
+f239505ee98c: Verifying Checksum
+f239505ee98c: Download complete
+817b5d835103: Verifying Checksum
+817b5d835103: Download complete
+da01c5e8798e: Verifying Checksum
+da01c5e8798e: Download complete
+33773805f4df: Verifying Checksum
+33773805f4df: Download complete
+4f4fb700ef54: Verifying Checksum
+4f4fb700ef54: Download complete
+61a50b46783b: Verifying Checksum
+61a50b46783b: Download complete
+034c4cd9adf7: Download complete
+38a6ac6eb429: Verifying Checksum
+38a6ac6eb429: Download complete
+c81c3cf5e4e9: Verifying Checksum
+c81c3cf5e4e9: Download complete
+6e909acdb790: Pull complete
+9becf3373b2c: Verifying Checksum
+9becf3373b2c: Download complete
+56401076b06e: Verifying Checksum
+56401076b06e: Download complete
+fac13dfbc748: Verifying Checksum
+fac13dfbc748: Download complete
+d36f69a68fac: Verifying Checksum
+d36f69a68fac: Download complete
+b7c8ecb4e3bf: Verifying Checksum
+b7c8ecb4e3bf: Download complete
+608429887a4c: Verifying Checksum
+608429887a4c: Download complete
+a0d8adf04160: Verifying Checksum
+a0d8adf04160: Download complete
+5df1d496e000: Verifying Checksum
+5df1d496e000: Download complete
+986e74093732: Verifying Checksum
+986e74093732: Download complete
+61692d590ec6: Verifying Checksum
+61692d590ec6: Download complete
+61692d590ec6: Pull complete
+f239505ee98c: Pull complete
+da01c5e8798e: Pull complete
+817b5d835103: Pull complete
+33773805f4df: Pull complete
+4f4fb700ef54: Pull complete
+61a50b46783b: Pull complete
+986e74093732: Pull complete
+034c4cd9adf7: Pull complete
+38a6ac6eb429: Pull complete
+c81c3cf5e4e9: Pull complete
+9becf3373b2c: Pull complete
+56401076b06e: Pull complete
+fac13dfbc748: Pull complete
+d36f69a68fac: Pull complete
+b7c8ecb4e3bf: Pull complete
+608429887a4c: Pull complete
+a0d8adf04160: Pull complete
+5df1d496e000: Pull complete
+Digest: sha256:369580b2234103c2929c620d5906534be951ea2d86d35c48db2a25508f2824fd
+Status: Downloaded newer image for zaproxy/zap-stable:latest
+docker.io/zaproxy/zap-stable:latest
+$ docker network create ${APP_NETWORK}
+ea7c33e99be11a8ed5b92bd988749f79b131d170ec01f7b35a0f7af181c9cf4d
+$ docker load < ${REPORT_PATH}/docker/juice-shop.tar
+Loaded image: juice-shop:1cb2ace50bc85f72320f64e1fabc91ef312a99a5
+$ docker run -d --name ${APP_CONTAINER_NAME} --network ${APP_NETWORK} juice-shop:$CI_COMMIT_SHA # collapsed multi-line command
+e08d521ac27b5aef4eeddfe0676990ad635098340d9be6cc3afc3237d2c77cd8
+Unable to find image 'curlimages/curl:8.1.2' locally
+8.1.2: Pulling from curlimages/curl
+8a49fdb3b6a5: Pulling fs layer
+c452a6fc1daa: Pulling fs layer
+4ca545ee6d5d: Pulling fs layer
+4ca545ee6d5d: Verifying Checksum
+4ca545ee6d5d: Download complete
+8a49fdb3b6a5: Verifying Checksum
+8a49fdb3b6a5: Download complete
+c452a6fc1daa: Verifying Checksum
+c452a6fc1daa: Download complete
+8a49fdb3b6a5: Pull complete
+c452a6fc1daa: Pull complete
+4ca545ee6d5d: Pull complete
+Digest: sha256:fcf8b68aa7af25898d21b47096ceb05678665ae182052283bd0d7128149db55f
+Status: Downloaded newer image for curlimages/curl:8.1.2
+/bin/sh: eval: line 199: timeout--: not found
+Running after_script
+00:01
+Running after script...
+$ docker rm -f ${APP_CONTAINER_NAME} || true
+juice-shop
+$ docker network rm ${APP_NETWORK} || true
+dast-network
+Cleaning up project directory and file based variables
+00:01
+ERROR: Job failed: exit code 127
