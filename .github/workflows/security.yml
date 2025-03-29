@@ -80,14 +80,20 @@ jobs:
             ' "${{ env.NPM_AUDIT_REPORT }}"
           fi
 
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.48.0
+          trivy --version  # Verify installation
+
       - name: Generate SBOM
         run: |
           echo "Generating SBOM with Trivy..."
+          mkdir -p "${{ env.REPORT_PATH }}"  # Ensure the directory exists
           trivy fs \
             --format cyclonedx \
             --output "${{ env.NPM_SBOM_REPORT }}" \
             --scanners vuln \
-            .
+            . || { echo "Trivy SBOM generation failed"; exit 1; }
 
           if [ ! -f "${{ env.NPM_SBOM_REPORT }}" ]; then
             echo "ERROR: Failed to generate SBOM"
@@ -96,7 +102,9 @@ jobs:
 
           echo "SBOM Summary:"
           jq -r '"Total components: \(if has("components") then .components | length else 0 end)"' "${{ env.NPM_SBOM_REPORT }}"
-
+        env:
+          REPORT_PATH: reports
+          NPM_SBOM_REPORT: reports/npm-sbom.cdx.json
       # Run Semgrep Analysis
       - name: Run Semgrep Analysis
         uses: docker://returntocorp/semgrep
