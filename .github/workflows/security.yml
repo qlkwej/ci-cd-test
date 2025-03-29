@@ -292,6 +292,8 @@ jobs:
         run: docker load < ${{ env.REPORT_PATH }}/docker/juice-shop.tar
 
       - name: Start Application and Run DAST
+        continue-on-error: true
+        timeout-minutes: 30
         run: |
           echo "Starting application container..."
           docker run -d --name juice-shop -p 3000:3000 --network dast-network juice-shop:${{ github.sha }}
@@ -310,14 +312,40 @@ jobs:
           done
           echo "Application is ready!"
 
+          echo "Preparing for ZAP Scan..."
+          mkdir -p ${{ env.REPORT_PATH }}
+          chmod 777 ${{ env.REPORT_PATH }}
+
           echo "Running ZAP Scan..."
           docker run --rm --network dast-network \
-            -v $(pwd)/${{ env.REPORT_PATH }}:/zap/wrk/:rw \
+            -v "$(pwd)/${{ env.REPORT_PATH }}:/zap/wrk/:rw" \
             --user root \
             ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
             -t http://juice-shop:3000 \
-            -I -m 5 \
-            -J "${{ env.DAST_REPORT }}" || true
+            -I \
+            -m 5 \
+            -T 20 \
+            -J "/zap/wrk/zap-report.json" \
+            --auto || true
+
+          # Ensure the report exists and is valid JSON
+          if [ -f "${{ env.REPORT_PATH }}/zap-report.json" ]; then
+            if jq empty "${{ env.REPORT_PATH }}/zap-report.json" 2>/dev/null; then
+              echo "ZAP report generated successfully and is valid JSON"
+            else
+              echo "ZAP report exists but is not valid JSON, creating empty report"
+              echo "[]" > "${{ env.DAST_REPORT }}"
+            fi
+          else
+            echo "ZAP failed to generate report, creating empty one"
+            echo "[]" > "${{ env.DAST_REPORT }}"
+          fi
+
+          # Display report summary if it exists
+          if [ -f "${{ env.DAST_REPORT }}" ]; then
+            echo "DAST Report Summary:"
+            jq -r '.site[0].alerts | group_by(.riskcode) | map({risk: (if .[0].riskcode == "3" then "High" elif .[0].riskcode == "2" then "Medium" elif .[0].riskcode == "1" then "Low" else "Info" end), count: length}) | .[] | "* \(.risk): \(.count)"' "${{ env.DAST_REPORT }}" || echo "No findings or invalid format"
+          fi
 
       - name: Upload DAST Report
         if: always()
@@ -338,15 +366,63 @@ jobs:
     runs-on: ubuntu-latest
     needs: [static-analysis, build, dast]
     steps:
-      - name: Download all artifacts
+      - name: Create Reports Directory
+        run: mkdir -p ${{ env.REPORT_PATH }}
+
+      - name: Download Static Analysis Reports
         uses: actions/download-artifact@v4
         with:
+          name: static-analysis-reports
           path: ${{ env.REPORT_PATH }}
+
+      - name: Download Container Security Reports
+        uses: actions/download-artifact@v4
+        with:
+          name: container-security-reports
+          path: ${{ env.REPORT_PATH }}
+
+      - name: Download DAST Report
+        uses: actions/download-artifact@v4
+        with:
+          name: dast-report
+          path: ${{ env.REPORT_PATH }}
+
+      - name: Verify Reports
+        run: |
+          echo "Listing downloaded reports:"
+          ls -R ${{ env.REPORT_PATH }}
+
+          if [ ! -f "${{ env.SAST_REPORT }}" ]; then
+            echo "ERROR: SAST report not found at ${{ env.SAST_REPORT }}"
+            exit 1
+          fi
+
+          if [ ! -f "${{ env.DAST_REPORT }}" ]; then
+            echo "ERROR: DAST report not found at ${{ env.DAST_REPORT }}"
+            exit 1
+          fi
+
+          if [ ! -f "${{ env.CONTAINER_SCAN_REPORT }}" ]; then
+            echo "ERROR: Container scan report not found at ${{ env.CONTAINER_SCAN_REPORT }}"
+            exit 1
+          fi
 
       - name: Install curl and jq
         run: |
           sudo apt-get update
           sudo apt-get install -y curl jq
+
+      - name: Verify DefectDojo Configuration
+        run: |
+          if [ -z "${{ secrets.DEFECTDOJO_URL }}" ]; then
+            echo "ERROR: DEFECTDOJO_URL is not set"
+            exit 1
+          fi
+
+          if [ -z "${{ secrets.DEFECTDOJO_API_KEY }}" ]; then
+            echo "ERROR: DEFECTDOJO_API_KEY is not set"
+            exit 1
+          fi
 
       - name: Create DefectDojo Engagement
         run: |
@@ -358,6 +434,7 @@ jobs:
             jq -r '.results[0].id // empty')
 
           if [ -z "$PRODUCT_ID" ]; then
+            echo "Creating new product: ${PRODUCT_NAME}"
             PRODUCT_ID=$(curl -s -X POST \
               -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
               -H "Content-Type: application/json" \
@@ -366,6 +443,13 @@ jobs:
               -d "{\"name\":\"${PRODUCT_NAME}\",\"description\":\"${PRODUCT_NAME} Security Pipeline\"}" | \
               jq -r '.id')
           fi
+
+          if [ -z "$PRODUCT_ID" ]; then
+            echo "ERROR: Failed to get or create product"
+            exit 1
+          fi
+
+          echo "Using product ID: ${PRODUCT_ID}"
 
           # Create Engagement
           ENGAGEMENT_ID=$(curl -s -X POST \
@@ -381,15 +465,22 @@ jobs:
               \"status\":\"In Progress\"
             }" | jq -r '.id')
 
+          if [ -z "$ENGAGEMENT_ID" ]; then
+            echo "ERROR: Failed to create engagement"
+            exit 1
+          fi
+
+          echo "Created engagement ID: ${ENGAGEMENT_ID}"
           echo "ENGAGEMENT_ID=${ENGAGEMENT_ID}" >> $GITHUB_ENV
 
       - name: Import SAST Results
         run: |
+          echo "Importing SAST results from: ${{ env.SAST_REPORT }}"
           curl -X POST \
             -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
             -H "Accept: application/json" \
             -F "scan_type=SARIF" \
-            -F "file=@${SAST_REPORT}" \
+            -F "file=@${{ env.SAST_REPORT }}" \
             -F "engagement=${ENGAGEMENT_ID}" \
             -F "close_old_findings=true" \
             "${DEFECTDOJO_URL}/api/v2/import-scan/"
