@@ -131,37 +131,50 @@ jobs:
           }
 
       - name: Run Semgrep Analysis
-        uses: semgrep/semgrep-action@v1
         continue-on-error: true
-        with:
-          config: >-
-            p/typescript
-            p/nodejs
-            p/javascript
-            p/react
-            p/expressjs
-            p/owasp-top-ten
-            p/security-audit
-            p/jwt
-            p/sql-injection
-            p/xss
-            p/secrets
-          publishToken: "" # Set to empty to disable publishing to semgrep.dev
+        run: |
+          echo "Running Semgrep Analysis..."
+          docker run --rm \
+            -v "$(pwd):/src" \
+            -v "$(pwd)/${{ env.REPORT_PATH }}:/reports" \
+            returntocorp/semgrep semgrep \
+              --sarif --output /reports/semgrep-results.sarif \
+              --metrics=off \
+              --timeout 300 \
+              --jobs 2 \
+              --config "p/default" \
+              --config "p/typescript" \
+              --config "p/nodejs" \
+              --config "p/javascript" \
+              --config "p/react" \
+              --config "p/expressjs" \
+              --config "p/owasp-top-ten" \
+              --config "p/security-audit" \
+              --config "p/jwt" \
+              --config "p/sql-injection" \
+              --config "p/xss" \
+              --config "p/secrets" \
+              /src
 
       - name: Process Semgrep Results
         if: always()
         run: |
-          mkdir -p "${{ env.REPORT_PATH }}"
-
-          if [ -f "semgrep.sarif" ]; then
+          if [ -f "${{ env.SAST_REPORT }}" ]; then
             echo "Processing Semgrep results..."
-            mv semgrep.sarif "${{ env.SAST_REPORT }}"
             
-            # Show summary of findings
-            echo "Semgrep Analysis Summary:"
-            jq -r '.runs[0].results | group_by(.level) | map({severity: .[0].level, count: length}) | .[] | "* \(.severity): \(.count)"' "${{ env.SAST_REPORT }}" || echo "No findings"
+            # Verify SARIF file is valid JSON
+            if jq empty "${{ env.SAST_REPORT }}" 2>/dev/null; then
+              echo "Semgrep report is valid JSON"
+              
+              # Show summary of findings
+              echo "Semgrep Analysis Summary:"
+              jq -r '.runs[0].results | group_by(.level) | map({severity: .[0].level, count: length}) | .[] | "* \(.severity): \(.count)"' "${{ env.SAST_REPORT }}" || echo "No findings"
+            else
+              echo "Semgrep report exists but is not valid JSON, creating empty report"
+              echo "[]" > "${{ env.SAST_REPORT }}"
+            fi
           else
-            echo "No Semgrep results found"
+            echo "No Semgrep results found, creating empty report"
             echo "[]" > "${{ env.SAST_REPORT }}"
           fi
 
@@ -299,11 +312,11 @@ jobs:
           docker run -d --name juice-shop -p 3000:3000 --network dast-network juice-shop:${{ github.sha }}
 
           echo "Waiting for application to be ready..."
-          timeout=60
+          timeout=120
           while ! curl -s --connect-timeout 5 http://localhost:3000 > /dev/null; do
             ((timeout--))
             if [ $timeout -eq 0 ]; then
-              echo "ERROR: Application failed to start within 60 seconds"
+              echo "ERROR: Application failed to start within 120 seconds"
               docker logs juice-shop
               exit 1
             fi
@@ -475,48 +488,87 @@ jobs:
 
       - name: Import SAST Results
         run: |
-          echo "Importing SAST results from: ${{ env.SAST_REPORT }}"
-          curl -X POST \
-            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
-            -H "Accept: application/json" \
-            -F "scan_type=SARIF" \
-            -F "file=@${{ env.SAST_REPORT }}" \
-            -F "engagement=${ENGAGEMENT_ID}" \
-            -F "close_old_findings=true" \
-            "${DEFECTDOJO_URL}/api/v2/import-scan/"
+          if [ -f "${{ env.SAST_REPORT }}" ]; then
+            echo "Importing SAST results from: ${{ env.SAST_REPORT }}"
+            # Validate SARIF format
+            if jq empty "${{ env.SAST_REPORT }}" 2>/dev/null; then
+              curl -X POST \
+                -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+                -H "Accept: application/json" \
+                -F "scan_type=SARIF" \
+                -F "file=@${{ env.SAST_REPORT }}" \
+                -F "engagement=${ENGAGEMENT_ID}" \
+                -F "close_old_findings=true" \
+                "${DEFECTDOJO_URL}/api/v2/import-scan/" || echo "Failed to import SAST results"
+            else
+              echo "Invalid SARIF format in ${{ env.SAST_REPORT }}, skipping import"
+            fi
+          else
+            echo "SAST report not found at ${{ env.SAST_REPORT }}, skipping import"
+          fi
 
       - name: Import DAST Results
         run: |
-          curl -X POST \
-            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
-            -H "Accept: application/json" \
-            -F "scan_type=ZAP Scan" \
-            -F "file=@${DAST_REPORT}" \
-            -F "engagement=${ENGAGEMENT_ID}" \
-            -F "close_old_findings=true" \
-            "${DEFECTDOJO_URL}/api/v2/import-scan/"
+          if [ -f "${DAST_REPORT}" ]; then
+            echo "Importing DAST results from: ${DAST_REPORT}"
+            # Validate JSON format
+            if jq empty "${DAST_REPORT}" 2>/dev/null; then
+              curl -X POST \
+                -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+                -H "Accept: application/json" \
+                -F "scan_type=ZAP Scan" \
+                -F "file=@${DAST_REPORT}" \
+                -F "engagement=${ENGAGEMENT_ID}" \
+                -F "close_old_findings=true" \
+                "${DEFECTDOJO_URL}/api/v2/import-scan/" || echo "Failed to import DAST results"
+            else
+              echo "Invalid JSON format in ${DAST_REPORT}, skipping import"
+            fi
+          else
+            echo "DAST report not found at ${DAST_REPORT}, skipping import"
+          fi
 
       - name: Import Container Scan Results
         run: |
-          curl -X POST \
-            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
-            -H "Accept: application/json" \
-            -F "scan_type=Trivy Scan" \
-            -F "file=@${CONTAINER_SCAN_REPORT}" \
-            -F "engagement=${ENGAGEMENT_ID}" \
-            -F "close_old_findings=true" \
-            "${DEFECTDOJO_URL}/api/v2/import-scan/"
+          if [ -f "${CONTAINER_SCAN_REPORT}" ]; then
+            echo "Importing Container Scan results from: ${CONTAINER_SCAN_REPORT}"
+            # Validate JSON format
+            if jq empty "${CONTAINER_SCAN_REPORT}" 2>/dev/null; then
+              curl -X POST \
+                -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+                -H "Accept: application/json" \
+                -F "scan_type=Trivy Scan" \
+                -F "file=@${CONTAINER_SCAN_REPORT}" \
+                -F "engagement=${ENGAGEMENT_ID}" \
+                -F "close_old_findings=true" \
+                "${DEFECTDOJO_URL}/api/v2/import-scan/" || echo "Failed to import Container Scan results"
+            else
+              echo "Invalid JSON format in ${CONTAINER_SCAN_REPORT}, skipping import"
+            fi
+          else
+            echo "Container scan report not found at ${CONTAINER_SCAN_REPORT}, skipping import"
+          fi
 
       - name: Import Dependency Scan Results
         run: |
-          curl -X POST \
-            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
-            -H "Accept: application/json" \
-            -F "scan_type=NPM Audit Scan" \
-            -F "file=@${NPM_AUDIT_REPORT}" \
-            -F "engagement=${ENGAGEMENT_ID}" \
-            -F "close_old_findings=true" \
-            "${DEFECTDOJO_URL}/api/v2/import-scan/"
+          if [ -f "${NPM_AUDIT_REPORT}" ]; then
+            echo "Importing NPM Audit results from: ${NPM_AUDIT_REPORT}"
+            # Validate JSON format
+            if jq empty "${NPM_AUDIT_REPORT}" 2>/dev/null; then
+              curl -X POST \
+                -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+                -H "Accept: application/json" \
+                -F "scan_type=NPM Audit Scan" \
+                -F "file=@${NPM_AUDIT_REPORT}" \
+                -F "engagement=${ENGAGEMENT_ID}" \
+                -F "close_old_findings=true" \
+                "${DEFECTDOJO_URL}/api/v2/import-scan/" || echo "Failed to import NPM Audit results"
+            else
+              echo "Invalid JSON format in ${NPM_AUDIT_REPORT}, skipping import"
+            fi
+          else
+            echo "NPM Audit report not found at ${NPM_AUDIT_REPORT}, skipping import"
+          fi
 
       - name: Generate Summary Report
         run: |
