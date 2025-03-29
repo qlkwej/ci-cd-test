@@ -145,7 +145,6 @@ jobs:
             p/xss
             p/secrets
           publishToken: "" # Set to empty to disable publishing to semgrep.dev
-          generateSarif: true # Ensure SARIF output is generated
 
       - name: Process Semgrep Results
         if: always()
