@@ -119,7 +119,7 @@ jobs:
           verbose: true
 
       - name: Upload Reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: static-analysis-reports
           path: |
@@ -183,7 +183,7 @@ jobs:
           docker save juice-shop:${{ github.sha }} > ${{ env.REPORT_PATH }}/docker/juice-shop.tar
 
       - name: Upload Reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: container-security-reports
           path: |
@@ -240,7 +240,7 @@ jobs:
           output_path: ${{ env.DAST_REPORT }}
 
       - name: Upload DAST Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dast-report
           path: ${{ env.DAST_REPORT }}
@@ -369,7 +369,7 @@ jobs:
           } > ${{ env.REPORT_PATH }}/security-summary.md
 
       - name: Upload Final Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: security-summary
           path: ${{ env.REPORT_PATH }}/security-summary.md
