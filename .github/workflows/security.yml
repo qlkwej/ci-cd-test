@@ -254,7 +254,7 @@ jobs:
 
           # Compliance scan
           trivy image \
-            --compliance docker-cis-1.6.0 \
+            --compliance docker-cis \
             --format json \
             --output "${{ env.COMPLIANCE_REPORT }}" \
             juice-shop:${{ github.sha }}
