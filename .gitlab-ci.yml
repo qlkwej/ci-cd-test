@@ -267,7 +267,7 @@ dast-start:
       docker run -d --name ${APP_CONTAINER_NAME} --network ${APP_NETWORK} juice-shop:$CI_COMMIT_SHA
 
       echo "Waiting for application to be ready..."
-      timeout=60
+      timeout=180
       while ! curl -s --connect-timeout 5 ${TARGET_URL} > /dev/null; do
         ((timeout--))
         if [ $timeout -eq 0 ]; then
