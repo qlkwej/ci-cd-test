@@ -79,15 +79,21 @@ jobs:
       - name: Install and verify Trivy
         run: |
           echo "Installing Trivy..."
-          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.48.0
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh -o install-trivy.sh
+          chmod +x install-trivy.sh
+          ./install-trivy.sh -b /usr/local/bin v0.48.0
 
           echo "Verifying Trivy installation..."
           trivy --version
+          which trivy
+
 
           if ! command -v trivy &> /dev/null; then
             echo "ERROR: Trivy installation failed"
             exit 1
           fi
+
+          echo "Trivy installed successfully"
 
       - name: Generate SBOM
         run: |
