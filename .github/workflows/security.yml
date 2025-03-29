@@ -88,7 +88,6 @@ jobs:
           trivy --version
           which trivy
 
-
           if ! command -v trivy &> /dev/null; then
             echo "ERROR: Trivy installation failed"
             exit 1
@@ -209,6 +208,24 @@ jobs:
       - name: Create reports directory
         run: mkdir -p ${{ env.REPORT_PATH }}/docker
 
+      - name: Install and verify Trivy
+        run: |
+          echo "Installing Trivy..."
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh -o install-trivy.sh
+          chmod +x install-trivy.sh
+          ./install-trivy.sh -b /usr/local/bin v0.48.0
+
+          echo "Verifying Trivy installation..."
+          trivy --version
+          which trivy
+
+          if ! command -v trivy &> /dev/null; then
+            echo "ERROR: Trivy installation failed"
+            exit 1
+          fi
+
+          echo "Trivy installed successfully"
+
       - name: Build container
         uses: docker/build-push-action@v5
         with:
@@ -263,7 +280,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Download container artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: container-security-reports
           path: ${{ env.REPORT_PATH }}
@@ -323,7 +340,7 @@ jobs:
     needs: [static-analysis, build, dast]
     steps:
       - name: Download all artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: ${{ env.REPORT_PATH }}
 
