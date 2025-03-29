@@ -43,7 +43,7 @@ jobs:
           node-version: "18"
 
       - name: Generate package-lock.json
-        run: npm install --package-lock-only
+        run: npm install --package-lock-only --ignore-scripts
 
       - name: Cache dependencies
         uses: actions/cache@v3
@@ -62,10 +62,6 @@ jobs:
       - name: Install dependencies and run audit
         run: |
           echo "Installing dependencies..."
-          # Generate package-lock.json first
-          npm install --package-lock-only --ignore-scripts
-
-          # Then do full install without scripts
           npm install --ignore-scripts
 
           echo "Running npm audit..."
