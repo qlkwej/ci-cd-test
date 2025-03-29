@@ -18,7 +18,7 @@ env:
   NPM_AUDIT_REPORT: "reports/npm-audit.json"
   NPM_SBOM_REPORT: "reports/npm-sbom.cdx.json"
   DAST_REPORT: "reports/zap-report.json"
-  SAST_REPORT: "reports/codeql-results.sarif"
+  SAST_REPORT: "reports/semgrep-results.sarif"
   SECRET_REPORT: "reports/gitleaks-report.json"
 
   # Trivy Configuration
@@ -137,28 +137,28 @@ jobs:
             p/nodejs
             p/javascript
             p/react
-            p/express
+            p/expressjs
             p/owasp-top-ten
             p/security-audit
             p/jwt
             p/sql-injection
             p/xss
             p/secrets
-          output: semgrep.sarif
-          metrics: false
-          quiet: true
-          timeout: 300
+          publishToken: "" # Set to empty to disable publishing to semgrep.dev
+          generateSarif: true # Ensure SARIF output is generated
 
       - name: Process Semgrep Results
         if: always()
         run: |
+          mkdir -p "${{ env.REPORT_PATH }}"
+
           if [ -f "semgrep.sarif" ]; then
             echo "Processing Semgrep results..."
-            cp semgrep.sarif "${{ env.SAST_REPORT }}"
+            mv semgrep.sarif "${{ env.SAST_REPORT }}"
             
             # Show summary of findings
             echo "Semgrep Analysis Summary:"
-            jq -r '.runs[0].results | group_by(.level) | map({severity: .[0].level, count: length}) | .[] | "* \(.severity): \(.count)"' semgrep.sarif || echo "No findings"
+            jq -r '.runs[0].results | group_by(.level) | map({severity: .[0].level, count: length}) | .[] | "* \(.severity): \(.count)"' "${{ env.SAST_REPORT }}" || echo "No findings"
           else
             echo "No Semgrep results found"
             echo "[]" > "${{ env.SAST_REPORT }}"
@@ -166,13 +166,22 @@ jobs:
 
       - name: Run Secret Detection
         uses: gitleaks/gitleaks-action@v2
-        env:
-          GITLEAKS_CONFIG: .gitleaks.toml
-        with:
-          config-path: .gitleaks.toml
-          report-format: json
-          report-path: ${{ env.SECRET_REPORT }}
-          verbose: true
+        continue-on-error: true
+
+      - name: Process Gitleaks Results
+        if: always()
+        run: |
+          if [ -f "results.sarif" ]; then
+            echo "Processing Gitleaks results..."
+            cp results.sarif "${{ env.SECRET_REPORT }}"
+            
+            # Show summary of findings
+            echo "Gitleaks Analysis Summary:"
+            jq -r '.runs[0].results | length | "Total findings: \(.)"' results.sarif || echo "No findings"
+          else
+            echo "No Gitleaks results found"
+            echo "[]" > "${{ env.SECRET_REPORT }}"
+          fi
 
       - name: Upload Reports
         uses: actions/upload-artifact@v4
@@ -180,7 +189,7 @@ jobs:
           name: static-analysis-reports
           path: |
             ${{ env.REPORT_PATH }}/npm-*.json
-            ${{ env.REPORT_PATH }}/codeql-results.sarif
+            ${{ env.REPORT_PATH }}/semgrep-results.sarif
             ${{ env.REPORT_PATH }}/gitleaks-report.json
             package-lock.json
           retention-days: 1

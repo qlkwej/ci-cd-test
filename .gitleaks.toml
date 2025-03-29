@@ -1,0 +1,62 @@
+# Gitleaks configuration file
+title = "Gitleaks Configuration"
+
+[allowlist]
+description = "global allow lists"
+paths = [
+    '''node_modules''',
+    '''dist''',
+    '''package-lock.json''',
+    '''yarn.lock''',
+    '''.gitleaks.toml''',
+]
+
+# Define secret detection rules
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key"
+regex = '''(?i)(api[_-]?key|apikey|secret|token)[_-]?([0-9a-zA-Z]{32,})'''
+tags = ["key", "API", "generic"]
+severity = "HIGH"
+
+[[rules]]
+id = "jwt"
+description = "JSON Web Token"
+regex = '''(?i)ey[A-Za-z0-9-_=]+\.ey[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$'''
+tags = ["key", "JWT", "token"]
+severity = "HIGH"
+
+[[rules]]
+id = "password"
+description = "Password in code"
+regex = '''(?i)(password|passwd|pwd)[_-]?[=:]\s*['"][^'"]{3,}['"]'''
+tags = ["key", "password"]
+severity = "HIGH"
+
+[[rules]]
+id = "aws-access-key"
+description = "AWS Access Key"
+regex = '''(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}'''
+tags = ["key", "AWS"]
+severity = "HIGH"
+
+[[rules]]
+id = "aws-secret-key"
+description = "AWS Secret Key"
+regex = '''(?i)aws[_-]?(?:secret[_-]?)?(?:access[_-]?)?key[_-]?(?:id)?[_-]?[=:]\s*['"][A-Za-z0-9/+=]{40}['"]'''
+tags = ["key", "AWS"]
+severity = "HIGH"
+
+[[rules]]
+id = "github-pat"
+description = "GitHub Personal Access Token"
+regex = '''ghp_[0-9a-zA-Z]{36}'''
+tags = ["key", "GitHub", "PAT"]
+severity = "HIGH"
+
+[[rules]]
+id = "private-key"
+description = "Private Key"
+regex = '''(?i)-----BEGIN[ A-Z0-9_-]*PRIVATE KEY-----'''
+tags = ["key", "private"]
+severity = "HIGH" 
