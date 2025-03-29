@@ -315,9 +315,17 @@ jobs:
             -v $(pwd)/${{ env.REPORT_PATH }}:/zap/wrk/:rw \
             --user root \
             ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
-            -t http://localhost:3000 \
+            -t http://juice-shop:3000 \
             -I -m 5 \
             -J "${{ env.DAST_REPORT }}" || true
+
+      - name: Upload DAST Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dast-report
+          path: ${{ env.DAST_REPORT }}
+          retention-days: 1
 
       - name: Cleanup
         if: always()
