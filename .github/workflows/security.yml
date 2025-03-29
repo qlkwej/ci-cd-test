@@ -97,21 +97,38 @@ jobs:
           echo "SBOM Summary:"
           jq -r '"Total components: \(if has("components") then .components | length else 0 end)"' "${{ env.NPM_SBOM_REPORT }}"
 
-      # Run CodeQL Analysis
-      - name: Run CodeQL Analysis
-        uses: github/codeql-action/init@v2
+      # Run Semgrep Analysis
+      - name: Run Semgrep Analysis
+        uses: docker://returntocorp/semgrep
         with:
-          languages: javascript
-          queries: security-and-quality
+          entrypoint: semgrep
+          args: >-
+            scan
+            --sarif
+            --config "auto"
+            --config "p/typescript"
+            --config "p/nodejs"
+            --config "p/javascript"
+            --config "p/react"
+            --config "p/express"
+            --config "p/owasp-top-ten"
+            --config "p/security-audit"
+            .
+            --output semgrep.sarif
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v2
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
-        with:
-          category: "/language:javascript"
-          output: ${{ env.SAST_REPORT }}
+      - name: Process Semgrep Results
+        if: always()
+        run: |
+          if [ -f "semgrep.sarif" ]; then
+            echo "Processing Semgrep results..."
+            cp semgrep.sarif "${{ env.SAST_REPORT }}"
+            
+            # Show summary of findings
+            echo "Semgrep Analysis Summary:"
+            jq -r '.runs[0].results | group_by(.level) | map({severity: .[0].level, count: length}) | .[] | "* \(.severity): \(.count)"' semgrep.sarif || echo "No findings"
+          else
+            echo "No Semgrep results found"
+          fi
 
       - name: Run Secret Detection
         uses: gitleaks/gitleaks-action@v2
