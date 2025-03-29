@@ -130,30 +130,24 @@ jobs:
           }
 
       - name: Run Semgrep Analysis
-        uses: docker://returntocorp/semgrep
+        uses: semgrep/semgrep-action@v1
         with:
-          entrypoint: semgrep
-          args: >-
-            scan
-            --sarif
-            --metrics=off
-            --quiet
-            --error
-            --config "p/typescript"
-            --config "p/nodejs"
-            --config "p/javascript"
-            --config "p/react"
-            --config "p/express"
-            --config "p/owasp-top-ten"
-            --config "p/security-audit"
-            --config "p/jwt"
-            --config "p/sql-injection"
-            --config "p/xss"
-            --config "p/secrets"
-            --max-target-bytes=1000000
-            --timeout=300
-            .
-            --output semgrep.sarif
+          config: >-
+            p/typescript
+            p/nodejs
+            p/javascript
+            p/react
+            p/express
+            p/owasp-top-ten
+            p/security-audit
+            p/jwt
+            p/sql-injection
+            p/xss
+            p/secrets
+          output: semgrep.sarif
+          metrics: false
+          quiet: true
+          timeout: 300
 
       - name: Process Semgrep Results
         if: always()
