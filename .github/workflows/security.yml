@@ -105,6 +105,9 @@ jobs:
           args: >-
             scan
             --sarif
+            --metrics=off
+            --quiet
+            --error
             --config "auto"
             --config "p/typescript"
             --config "p/nodejs"
@@ -113,6 +116,8 @@ jobs:
             --config "p/express"
             --config "p/owasp-top-ten"
             --config "p/security-audit"
+            --max-target-bytes=1000000
+            --timeout=300
             .
             --output semgrep.sarif
 
@@ -128,6 +133,7 @@ jobs:
             jq -r '.runs[0].results | group_by(.level) | map({severity: .[0].level, count: length}) | .[] | "* \(.severity): \(.count)"' semgrep.sarif || echo "No findings"
           else
             echo "No Semgrep results found"
+            echo "[]" > "${{ env.SAST_REPORT }}"
           fi
 
       - name: Run Secret Detection
