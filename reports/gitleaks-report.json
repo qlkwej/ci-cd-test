@@ -1,0 +1,5337 @@
+{
+ "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+ "version": "2.1.0",
+ "runs": [
+  {
+   "tool": {
+    "driver": {
+     "name": "gitleaks",
+     "semanticVersion": "v8.0.0",
+     "rules": [
+      {
+       "id": "generic-api-key",
+       "name": "Generic API Key",
+       "shortDescription": {
+        "text": "(?i)(api[_-]?key|apikey|secret|token)[_-]?([0-9a-zA-Z]{32,})"
+       }
+      },
+      {
+       "id": "jwt",
+       "name": "JSON Web Token",
+       "shortDescription": {
+        "text": "(?i)ey[A-Za-z0-9-_=]+\\.ey[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+/=]*$"
+       }
+      },
+      {
+       "id": "password",
+       "name": "Password in code",
+       "shortDescription": {
+        "text": "(?i)(password|passwd|pwd)[_-]?[=:]\\s*['\"][^'\"]{3,}['\"]"
+       }
+      },
+      {
+       "id": "aws-access-key",
+       "name": "AWS Access Key",
+       "shortDescription": {
+        "text": "(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}"
+       }
+      },
+      {
+       "id": "aws-secret-key",
+       "name": "AWS Secret Key",
+       "shortDescription": {
+        "text": "(?i)aws[_-]?(?:secret[_-]?)?(?:access[_-]?)?key[_-]?(?:id)?[_-]?[=:]\\s*['\"][A-Za-z0-9/+=]{40}['\"]"
+       }
+      },
+      {
+       "id": "github-pat",
+       "name": "GitHub Personal Access Token",
+       "shortDescription": {
+        "text": "ghp_[0-9a-zA-Z]{36}"
+       }
+      },
+      {
+       "id": "private-key",
+       "name": "Private Key",
+       "shortDescription": {
+        "text": "(?i)-----BEGIN[ A-Z0-9_-]*PRIVATE KEY-----"
+       }
+      }
+     ]
+    }
+   },
+   "results": [
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 3,
+         "startColumn": 4,
+         "endLine": 3,
+         "endColumn": 23,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 31,
+         "startColumn": 4,
+         "endLine": 31,
+         "endColumn": 23,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 63,
+         "startColumn": 4,
+         "endLine": 63,
+         "endColumn": 39,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 88,
+         "startColumn": 4,
+         "endLine": 88,
+         "endColumn": 51,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 107,
+         "startColumn": 4,
+         "endLine": 107,
+         "endColumn": 75,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 115,
+         "startColumn": 4,
+         "endLine": 115,
+         "endColumn": 45,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 123,
+         "startColumn": 4,
+         "endLine": 123,
+         "endColumn": 49,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 132,
+         "startColumn": 4,
+         "endLine": 132,
+         "endColumn": 26,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 140,
+         "startColumn": 4,
+         "endLine": 140,
+         "endColumn": 46,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 149,
+         "startColumn": 4,
+         "endLine": 149,
+         "endColumn": 50,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 158,
+         "startColumn": 4,
+         "endLine": 158,
+         "endColumn": 39,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 166,
+         "startColumn": 4,
+         "endLine": 166,
+         "endColumn": 99,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 176,
+         "startColumn": 4,
+         "endLine": 176,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 186,
+         "startColumn": 4,
+         "endLine": 186,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 195,
+         "startColumn": 4,
+         "endLine": 195,
+         "endColumn": 41,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 204,
+         "startColumn": 4,
+         "endLine": 204,
+         "endColumn": 34,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 213,
+         "startColumn": 4,
+         "endLine": 213,
+         "endColumn": 19,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 237,
+         "startColumn": 4,
+         "endLine": 237,
+         "endColumn": 54,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 243,
+         "startColumn": 4,
+         "endLine": 243,
+         "endColumn": 54,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 249,
+         "startColumn": 4,
+         "endLine": 249,
+         "endColumn": 80,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 259,
+         "startColumn": 4,
+         "endLine": 259,
+         "endColumn": 22,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file data/static/users.yml at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "data/static/users.yml"
+        },
+        "region": {
+         "startLine": 270,
+         "startColumn": 4,
+         "endLine": 270,
+         "endColumn": 32,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file frontend/src/app/Services/two-factor-auth-service.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "frontend/src/app/Services/two-factor-auth-service.spec.ts"
+        },
+        "region": {
+         "startLine": 64,
+         "startColumn": 43,
+         "endLine": 64,
+         "endColumn": 61,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file frontend/src/app/Services/two-factor-auth-service.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "frontend/src/app/Services/two-factor-auth-service.spec.ts"
+        },
+        "region": {
+         "startLine": 80,
+         "startColumn": 43,
+         "endLine": 80,
+         "endColumn": 61,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file frontend/src/app/oauth/oauth.component.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "frontend/src/app/oauth/oauth.component.spec.ts"
+        },
+        "region": {
+         "startLine": 84,
+         "startColumn": 78,
+         "endLine": 84,
+         "endColumn": 109,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file frontend/src/app/oauth/oauth.component.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "frontend/src/app/oauth/oauth.component.spec.ts"
+        },
+        "region": {
+         "startLine": 91,
+         "startColumn": 79,
+         "endLine": 91,
+         "endColumn": 110,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file frontend/src/app/register/register.component.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "frontend/src/app/register/register.component.spec.ts"
+        },
+        "region": {
+         "startLine": 151,
+         "startColumn": 38,
+         "endLine": 151,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "private-key has detected secret for file lib/insecurity.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "private-key",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "lib/insecurity.ts"
+        },
+        "region": {
+         "startLine": 23,
+         "startColumn": 22,
+         "endLine": 23,
+         "endColumn": 52,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/2faSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/2faSpec.ts"
+        },
+        "region": {
+         "startLine": 169,
+         "startColumn": 8,
+         "endLine": 169,
+         "endColumn": 54,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/2faSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/2faSpec.ts"
+        },
+        "region": {
+         "startLine": 195,
+         "startColumn": 8,
+         "endLine": 195,
+         "endColumn": 50,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/addressApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/addressApiSpec.ts"
+        },
+        "region": {
+         "startLine": 20,
+         "startColumn": 8,
+         "endLine": 20,
+         "endColumn": 27,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/authenticatedUsersSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/authenticatedUsersSpec.ts"
+        },
+        "region": {
+         "startLine": 21,
+         "startColumn": 10,
+         "endLine": 21,
+         "endColumn": 53,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/authenticatedUsersSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/authenticatedUsersSpec.ts"
+        },
+        "region": {
+         "startLine": 30,
+         "startColumn": 10,
+         "endLine": 30,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/basketApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/basketApiSpec.ts"
+        },
+        "region": {
+         "startLine": 25,
+         "startColumn": 8,
+         "endLine": 25,
+         "endColumn": 27,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/basketApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/basketApiSpec.ts"
+        },
+        "region": {
+         "startLine": 101,
+         "startColumn": 10,
+         "endLine": 101,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/basketItemApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/basketItemApiSpec.ts"
+        },
+        "region": {
+         "startLine": 21,
+         "startColumn": 8,
+         "endLine": 21,
+         "endColumn": 27,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/chatBotSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/chatBotSpec.ts"
+        },
+        "region": {
+         "startLine": 56,
+         "startColumn": 10,
+         "endLine": 56,
+         "endColumn": 52,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/chatBotSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/chatBotSpec.ts"
+        },
+        "region": {
+         "startLine": 77,
+         "startColumn": 10,
+         "endLine": 77,
+         "endColumn": 52,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/chatBotSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/chatBotSpec.ts"
+        },
+        "region": {
+         "startLine": 108,
+         "startColumn": 10,
+         "endLine": 108,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/chatBotSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/chatBotSpec.ts"
+        },
+        "region": {
+         "startLine": 140,
+         "startColumn": 10,
+         "endLine": 140,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/chatBotSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/chatBotSpec.ts"
+        },
+        "region": {
+         "startLine": 174,
+         "startColumn": 10,
+         "endLine": 174,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/chatBotSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/chatBotSpec.ts"
+        },
+        "region": {
+         "startLine": 205,
+         "startColumn": 10,
+         "endLine": 205,
+         "endColumn": 86,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/chatBotSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/chatBotSpec.ts"
+        },
+        "region": {
+         "startLine": 250,
+         "startColumn": 10,
+         "endLine": 250,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/chatBotSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/chatBotSpec.ts"
+        },
+        "region": {
+         "startLine": 287,
+         "startColumn": 12,
+         "endLine": 287,
+         "endColumn": 35,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/chatBotSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/chatBotSpec.ts"
+        },
+        "region": {
+         "startLine": 295,
+         "startColumn": 10,
+         "endLine": 295,
+         "endColumn": 33,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deliveryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deliveryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 23,
+         "startColumn": 12,
+         "endLine": 23,
+         "endColumn": 31,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deliveryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deliveryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 52,
+         "startColumn": 12,
+         "endLine": 52,
+         "endColumn": 83,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deliveryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deliveryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 83,
+         "startColumn": 12,
+         "endLine": 83,
+         "endColumn": 31,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deliveryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deliveryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 111,
+         "startColumn": 12,
+         "endLine": 111,
+         "endColumn": 83,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/dataExportApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/dataExportApiSpec.ts"
+        },
+        "region": {
+         "startLine": 22,
+         "startColumn": 10,
+         "endLine": 22,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/dataExportApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/dataExportApiSpec.ts"
+        },
+        "region": {
+         "startLine": 49,
+         "startColumn": 10,
+         "endLine": 49,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/dataExportApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/dataExportApiSpec.ts"
+        },
+        "region": {
+         "startLine": 78,
+         "startColumn": 10,
+         "endLine": 78,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/dataExportApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/dataExportApiSpec.ts"
+        },
+        "region": {
+         "startLine": 113,
+         "startColumn": 10,
+         "endLine": 113,
+         "endColumn": 45,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/dataExportApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/dataExportApiSpec.ts"
+        },
+        "region": {
+         "startLine": 153,
+         "startColumn": 10,
+         "endLine": 153,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/dataExportApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/dataExportApiSpec.ts"
+        },
+        "region": {
+         "startLine": 195,
+         "startColumn": 10,
+         "endLine": 195,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/dataExportApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/dataExportApiSpec.ts"
+        },
+        "region": {
+         "startLine": 235,
+         "startColumn": 10,
+         "endLine": 235,
+         "endColumn": 45,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/dataExportApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/dataExportApiSpec.ts"
+        },
+        "region": {
+         "startLine": 283,
+         "startColumn": 10,
+         "endLine": 283,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/dataExportApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/dataExportApiSpec.ts"
+        },
+        "region": {
+         "startLine": 333,
+         "startColumn": 10,
+         "endLine": 333,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deluxeApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deluxeApiSpec.ts"
+        },
+        "region": {
+         "startLine": 35,
+         "startColumn": 10,
+         "endLine": 35,
+         "endColumn": 45,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deluxeApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deluxeApiSpec.ts"
+        },
+        "region": {
+         "startLine": 53,
+         "startColumn": 10,
+         "endLine": 53,
+         "endColumn": 81,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deluxeApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deluxeApiSpec.ts"
+        },
+        "region": {
+         "startLine": 71,
+         "startColumn": 10,
+         "endLine": 71,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deluxeApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deluxeApiSpec.ts"
+        },
+        "region": {
+         "startLine": 89,
+         "startColumn": 10,
+         "endLine": 89,
+         "endColumn": 47,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deluxeApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deluxeApiSpec.ts"
+        },
+        "region": {
+         "startLine": 105,
+         "startColumn": 8,
+         "endLine": 105,
+         "endColumn": 43,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deluxeApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deluxeApiSpec.ts"
+        },
+        "region": {
+         "startLine": 129,
+         "startColumn": 8,
+         "endLine": 129,
+         "endColumn": 27,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deluxeApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deluxeApiSpec.ts"
+        },
+        "region": {
+         "startLine": 149,
+         "startColumn": 10,
+         "endLine": 149,
+         "endColumn": 81,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deluxeApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deluxeApiSpec.ts"
+        },
+        "region": {
+         "startLine": 170,
+         "startColumn": 10,
+         "endLine": 170,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/deluxeApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/deluxeApiSpec.ts"
+        },
+        "region": {
+         "startLine": 191,
+         "startColumn": 10,
+         "endLine": 191,
+         "endColumn": 47,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/erasureRequestApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/erasureRequestApiSpec.ts"
+        },
+        "region": {
+         "startLine": 18,
+         "startColumn": 10,
+         "endLine": 18,
+         "endColumn": 63,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/erasureRequestApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/erasureRequestApiSpec.ts"
+        },
+        "region": {
+         "startLine": 37,
+         "startColumn": 10,
+         "endLine": 37,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/erasureRequestApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/erasureRequestApiSpec.ts"
+        },
+        "region": {
+         "startLine": 64,
+         "startColumn": 10,
+         "endLine": 64,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/erasureRequestApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/erasureRequestApiSpec.ts"
+        },
+        "region": {
+         "startLine": 80,
+         "startColumn": 18,
+         "endLine": 80,
+         "endColumn": 65,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/erasureRequestApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/erasureRequestApiSpec.ts"
+        },
+        "region": {
+         "startLine": 99,
+         "startColumn": 10,
+         "endLine": 99,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/erasureRequestApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/erasureRequestApiSpec.ts"
+        },
+        "region": {
+         "startLine": 119,
+         "startColumn": 10,
+         "endLine": 119,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/erasureRequestApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/erasureRequestApiSpec.ts"
+        },
+        "region": {
+         "startLine": 140,
+         "startColumn": 10,
+         "endLine": 140,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/feedbackApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/feedbackApiSpec.ts"
+        },
+        "region": {
+         "startLine": 119,
+         "startColumn": 10,
+         "endLine": 119,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/feedbackApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/feedbackApiSpec.ts"
+        },
+        "region": {
+         "startLine": 152,
+         "startColumn": 10,
+         "endLine": 152,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/memoryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/memoryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 26,
+         "startColumn": 10,
+         "endLine": 26,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/memoryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/memoryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 64,
+         "startColumn": 10,
+         "endLine": 64,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/memoryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/memoryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 86,
+         "startColumn": 10,
+         "endLine": 86,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/memoryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/memoryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 112,
+         "startColumn": 10,
+         "endLine": 112,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/memoryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/memoryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 142,
+         "startColumn": 10,
+         "endLine": 142,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/orderHistoryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/orderHistoryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 19,
+         "startColumn": 10,
+         "endLine": 19,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/orderHistoryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/orderHistoryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 56,
+         "startColumn": 10,
+         "endLine": 56,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/orderHistoryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/orderHistoryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 73,
+         "startColumn": 10,
+         "endLine": 73,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/orderHistoryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/orderHistoryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 90,
+         "startColumn": 10,
+         "endLine": 90,
+         "endColumn": 47,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/orderHistoryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/orderHistoryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 109,
+         "startColumn": 10,
+         "endLine": 109,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/orderHistoryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/orderHistoryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 129,
+         "startColumn": 10,
+         "endLine": 129,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/orderHistoryApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/orderHistoryApiSpec.ts"
+        },
+        "region": {
+         "startLine": 149,
+         "startColumn": 10,
+         "endLine": 149,
+         "endColumn": 47,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/loginApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/loginApiSpec.ts"
+        },
+        "region": {
+         "startLine": 21,
+         "startColumn": 10,
+         "endLine": 21,
+         "endColumn": 30,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/loginApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/loginApiSpec.ts"
+        },
+        "region": {
+         "startLine": 30,
+         "startColumn": 14,
+         "endLine": 30,
+         "endColumn": 34,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/loginApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/loginApiSpec.ts"
+        },
+        "region": {
+         "startLine": 46,
+         "startColumn": 8,
+         "endLine": 46,
+         "endColumn": 26,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/loginApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/loginApiSpec.ts"
+        },
+        "region": {
+         "startLine": 64,
+         "startColumn": 10,
+         "endLine": 64,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/loginApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/loginApiSpec.ts"
+        },
+        "region": {
+         "startLine": 79,
+         "startColumn": 10,
+         "endLine": 79,
+         "endColumn": 51,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/loginApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/loginApiSpec.ts"
+        },
+        "region": {
+         "startLine": 94,
+         "startColumn": 10,
+         "endLine": 94,
+         "endColumn": 32,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/loginApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/loginApiSpec.ts"
+        },
+        "region": {
+         "startLine": 109,
+         "startColumn": 10,
+         "endLine": 109,
+         "endColumn": 45,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/loginApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/loginApiSpec.ts"
+        },
+        "region": {
+         "startLine": 124,
+         "startColumn": 10,
+         "endLine": 124,
+         "endColumn": 56,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/loginApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/loginApiSpec.ts"
+        },
+        "region": {
+         "startLine": 142,
+         "startColumn": 10,
+         "endLine": 142,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/loginApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/loginApiSpec.ts"
+        },
+        "region": {
+         "startLine": 245,
+         "startColumn": 10,
+         "endLine": 245,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/loginApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/loginApiSpec.ts"
+        },
+        "region": {
+         "startLine": 266,
+         "startColumn": 10,
+         "endLine": 266,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/passwordApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/passwordApiSpec.ts"
+        },
+        "region": {
+         "startLine": 20,
+         "startColumn": 10,
+         "endLine": 20,
+         "endColumn": 30,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/passwordApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/passwordApiSpec.ts"
+        },
+        "region": {
+         "startLine": 29,
+         "startColumn": 14,
+         "endLine": 29,
+         "endColumn": 34,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/passwordApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/passwordApiSpec.ts"
+        },
+        "region": {
+         "startLine": 47,
+         "startColumn": 10,
+         "endLine": 47,
+         "endColumn": 105,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/paymentApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/paymentApiSpec.ts"
+        },
+        "region": {
+         "startLine": 20,
+         "startColumn": 8,
+         "endLine": 20,
+         "endColumn": 27,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/passwordApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/passwordApiSpec.ts"
+        },
+        "region": {
+         "startLine": 93,
+         "startColumn": 10,
+         "endLine": 93,
+         "endColumn": 45,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/productReviewApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/productReviewApiSpec.ts"
+        },
+        "region": {
+         "startLine": 111,
+         "startColumn": 10,
+         "endLine": 111,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/productReviewApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/productReviewApiSpec.ts"
+        },
+        "region": {
+         "startLine": 131,
+         "startColumn": 10,
+         "endLine": 131,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/profileImageUploadSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/profileImageUploadSpec.ts"
+        },
+        "region": {
+         "startLine": 25,
+         "startColumn": 10,
+         "endLine": 25,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/profileImageUploadSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/profileImageUploadSpec.ts"
+        },
+        "region": {
+         "startLine": 52,
+         "startColumn": 10,
+         "endLine": 52,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/profileImageUploadSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/profileImageUploadSpec.ts"
+        },
+        "region": {
+         "startLine": 97,
+         "startColumn": 10,
+         "endLine": 97,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/profileImageUploadSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/profileImageUploadSpec.ts"
+        },
+        "region": {
+         "startLine": 123,
+         "startColumn": 10,
+         "endLine": 123,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/profileImageUploadSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/profileImageUploadSpec.ts"
+        },
+        "region": {
+         "startLine": 164,
+         "startColumn": 10,
+         "endLine": 164,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/securityAnswerApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/securityAnswerApiSpec.ts"
+        },
+        "region": {
+         "startLine": 44,
+         "startColumn": 8,
+         "endLine": 44,
+         "endColumn": 24,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 21,
+         "startColumn": 10,
+         "endLine": 21,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 38,
+         "startColumn": 10,
+         "endLine": 38,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 55,
+         "startColumn": 10,
+         "endLine": 55,
+         "endColumn": 47,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 72,
+         "startColumn": 10,
+         "endLine": 72,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 93,
+         "startColumn": 10,
+         "endLine": 93,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 114,
+         "startColumn": 10,
+         "endLine": 114,
+         "endColumn": 47,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 137,
+         "startColumn": 10,
+         "endLine": 137,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 155,
+         "startColumn": 10,
+         "endLine": 155,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 173,
+         "startColumn": 10,
+         "endLine": 173,
+         "endColumn": 47,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 190,
+         "startColumn": 10,
+         "endLine": 190,
+         "endColumn": 47,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 207,
+         "startColumn": 10,
+         "endLine": 207,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 228,
+         "startColumn": 10,
+         "endLine": 228,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 249,
+         "startColumn": 10,
+         "endLine": 249,
+         "endColumn": 47,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 269,
+         "startColumn": 10,
+         "endLine": 269,
+         "endColumn": 47,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 292,
+         "startColumn": 10,
+         "endLine": 292,
+         "endColumn": 47,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 309,
+         "startColumn": 10,
+         "endLine": 309,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/quantityApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/quantityApiSpec.ts"
+        },
+        "region": {
+         "startLine": 326,
+         "startColumn": 10,
+         "endLine": 326,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/userProfileSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/userProfileSpec.ts"
+        },
+        "region": {
+         "startLine": 19,
+         "startColumn": 8,
+         "endLine": 19,
+         "endColumn": 27,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/userApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/userApiSpec.ts"
+        },
+        "region": {
+         "startLine": 43,
+         "startColumn": 10,
+         "endLine": 43,
+         "endColumn": 30,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/userApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/userApiSpec.ts"
+        },
+        "region": {
+         "startLine": 61,
+         "startColumn": 10,
+         "endLine": 61,
+         "endColumn": 30,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/userApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/userApiSpec.ts"
+        },
+        "region": {
+         "startLine": 119,
+         "startColumn": 10,
+         "endLine": 119,
+         "endColumn": 26,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/userApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/userApiSpec.ts"
+        },
+        "region": {
+         "startLine": 137,
+         "startColumn": 10,
+         "endLine": 137,
+         "endColumn": 30,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/userApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/userApiSpec.ts"
+        },
+        "region": {
+         "startLine": 159,
+         "startColumn": 10,
+         "endLine": 159,
+         "endColumn": 30,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/userApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/userApiSpec.ts"
+        },
+        "region": {
+         "startLine": 181,
+         "startColumn": 10,
+         "endLine": 181,
+         "endColumn": 30,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/userApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/userApiSpec.ts"
+        },
+        "region": {
+         "startLine": 200,
+         "startColumn": 12,
+         "endLine": 200,
+         "endColumn": 38,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/userApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/userApiSpec.ts"
+        },
+        "region": {
+         "startLine": 254,
+         "startColumn": 10,
+         "endLine": 254,
+         "endColumn": 57,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/api/walletApiSpec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/api/walletApiSpec.ts"
+        },
+        "region": {
+         "startLine": 18,
+         "startColumn": 8,
+         "endLine": 18,
+         "endColumn": 23,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/administration.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/administration.spec.ts"
+        },
+        "region": {
+         "startLine": 5,
+         "startColumn": 8,
+         "endLine": 5,
+         "endColumn": 27,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/b2bOrder.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/b2bOrder.spec.ts"
+        },
+        "region": {
+         "startLine": 6,
+         "startColumn": 39,
+         "endLine": 6,
+         "endColumn": 58,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/b2bOrder.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/b2bOrder.spec.ts"
+        },
+        "region": {
+         "startLine": 37,
+         "startColumn": 39,
+         "endLine": 37,
+         "endColumn": 58,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/changePassword.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/changePassword.spec.ts"
+        },
+        "region": {
+         "startLine": 6,
+         "startColumn": 10,
+         "endLine": 6,
+         "endColumn": 55,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/changePassword.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/changePassword.spec.ts"
+        },
+        "region": {
+         "startLine": 25,
+         "startColumn": 10,
+         "endLine": 25,
+         "endColumn": 45,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/changePassword.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/changePassword.spec.ts"
+        },
+        "region": {
+         "startLine": 31,
+         "startColumn": 36,
+         "endLine": 31,
+         "endColumn": 59,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/basket.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/basket.spec.ts"
+        },
+        "region": {
+         "startLine": 4,
+         "startColumn": 35,
+         "endLine": 4,
+         "endColumn": 54,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/basket.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/basket.spec.ts"
+        },
+        "region": {
+         "startLine": 76,
+         "startColumn": 33,
+         "endLine": 76,
+         "endColumn": 52,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/chatbot.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/chatbot.spec.ts"
+        },
+        "region": {
+         "startLine": 3,
+         "startColumn": 33,
+         "endLine": 3,
+         "endColumn": 52,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/dataErasure.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/dataErasure.spec.ts"
+        },
+        "region": {
+         "startLine": 3,
+         "startColumn": 33,
+         "endLine": 3,
+         "endColumn": 52,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/dataExport.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/dataExport.spec.ts"
+        },
+        "region": {
+         "startLine": 24,
+         "startColumn": 35,
+         "endLine": 24,
+         "endColumn": 54,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/deluxe.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/deluxe.spec.ts"
+        },
+        "region": {
+         "startLine": 4,
+         "startColumn": 33,
+         "endLine": 4,
+         "endColumn": 52,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/deluxe.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/deluxe.spec.ts"
+        },
+        "region": {
+         "startLine": 21,
+         "startColumn": 10,
+         "endLine": 21,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/complain.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/complain.spec.ts"
+        },
+        "region": {
+         "startLine": 5,
+         "startColumn": 8,
+         "endLine": 5,
+         "endColumn": 27,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/contact.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/contact.spec.ts"
+        },
+        "region": {
+         "startLine": 11,
+         "startColumn": 35,
+         "endLine": 11,
+         "endColumn": 54,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/contact.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/contact.spec.ts"
+        },
+        "region": {
+         "startLine": 47,
+         "startColumn": 35,
+         "endLine": 47,
+         "endColumn": 54,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/noSql.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/noSql.spec.ts"
+        },
+        "region": {
+         "startLine": 8,
+         "startColumn": 35,
+         "endLine": 8,
+         "endColumn": 54,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/noSql.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/noSql.spec.ts"
+        },
+        "region": {
+         "startLine": 53,
+         "startColumn": 35,
+         "endLine": 53,
+         "endColumn": 54,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/noSql.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/noSql.spec.ts"
+        },
+        "region": {
+         "startLine": 76,
+         "startColumn": 43,
+         "endLine": 76,
+         "endColumn": 65,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/noSql.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/noSql.spec.ts"
+        },
+        "region": {
+         "startLine": 120,
+         "startColumn": 43,
+         "endLine": 120,
+         "endColumn": 65,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/register.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/register.spec.ts"
+        },
+        "region": {
+         "startLine": 10,
+         "startColumn": 10,
+         "endLine": 10,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/register.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/register.spec.ts"
+        },
+        "region": {
+         "startLine": 28,
+         "startColumn": 20,
+         "endLine": 28,
+         "endColumn": 36,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/register.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/register.spec.ts"
+        },
+        "region": {
+         "startLine": 60,
+         "startColumn": 14,
+         "endLine": 60,
+         "endColumn": 30,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/register.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/register.spec.ts"
+        },
+        "region": {
+         "startLine": 84,
+         "startColumn": 14,
+         "endLine": 84,
+         "endColumn": 42,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/profile.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/profile.spec.ts"
+        },
+        "region": {
+         "startLine": 3,
+         "startColumn": 33,
+         "endLine": 3,
+         "endColumn": 52,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/restApi.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/restApi.spec.ts"
+        },
+        "region": {
+         "startLine": 4,
+         "startColumn": 35,
+         "endLine": 4,
+         "endColumn": 54,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/restApi.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/restApi.spec.ts"
+        },
+        "region": {
+         "startLine": 82,
+         "startColumn": 10,
+         "endLine": 82,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/totpSetup.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/totpSetup.spec.ts"
+        },
+        "region": {
+         "startLine": 6,
+         "startColumn": 10,
+         "endLine": 6,
+         "endColumn": 56,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/totpSetup.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/totpSetup.spec.ts"
+        },
+        "region": {
+         "startLine": 20,
+         "startColumn": 10,
+         "endLine": 20,
+         "endColumn": 45,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/search.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/search.spec.ts"
+        },
+        "region": {
+         "startLine": 56,
+         "startColumn": 10,
+         "endLine": 56,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    },
+    {
+     "message": {
+      "text": "password has detected secret for file test/cypress/e2e/search.spec.ts at commit f3f265042eb3faa98a78bd7368764bcee669340c."
+     },
+     "ruleId": "password",
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "test/cypress/e2e/search.spec.ts"
+        },
+        "region": {
+         "startLine": 83,
+         "startColumn": 10,
+         "endLine": 83,
+         "endColumn": 29,
+         "snippet": {
+          "text": "REDACTED"
+         }
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "commitSha": "f3f265042eb3faa98a78bd7368764bcee669340c",
+      "email": "qlkwej",
+      "author": "Qlkwej",
+      "date": "2025-03-30T04:54:46Z",
+      "commitMessage": "fix defectdojo and path dast"
+     }
+    }
+   ]
+  }
+ ]
+}

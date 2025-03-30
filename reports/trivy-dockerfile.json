@@ -1,0 +1,194 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2025-03-30T05:03:48.633667005Z",
+  "ArtifactName": "Dockerfile",
+  "ArtifactType": "filesystem",
+  "Metadata": {
+    "ImageConfig": {
+      "architecture": "",
+      "created": "0001-01-01T00:00:00Z",
+      "os": "",
+      "rootfs": {
+        "type": "",
+        "diff_ids": null
+      },
+      "config": {}
+    }
+  },
+  "Results": [
+    {
+      "Target": "Dockerfile",
+      "Class": "config",
+      "Type": "dockerfile",
+      "MisconfSummary": {
+        "Successes": 23,
+        "Failures": 4,
+        "Exceptions": 0
+      },
+      "Misconfigurations": [
+        {
+          "Type": "Dockerfile Security Check",
+          "ID": "DS001",
+          "AVDID": "AVD-DS-0001",
+          "Title": "':latest' tag used",
+          "Description": "When using a 'FROM' statement you should use a specific tag to avoid uncontrolled behavior when the image is updated.",
+          "Message": "Specify a tag in the 'FROM' statement for image 'gcr.io/distroless/nodejs20-debian11'",
+          "Namespace": "builtin.dockerfile.DS001",
+          "Query": "data.builtin.dockerfile.DS001.deny",
+          "Resolution": "Add a tag to the image in the 'FROM' statement",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/ds001",
+          "References": [
+            "https://avd.aquasec.com/misconfig/ds001"
+          ],
+          "Status": "FAIL",
+          "Layer": {},
+          "CauseMetadata": {
+            "Provider": "Dockerfile",
+            "Service": "general",
+            "StartLine": 36,
+            "EndLine": 36,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 36,
+                  "Content": "FROM gcr.io/distroless/nodejs20-debian11",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;64mFROM\u001b[0m\u001b[38;5;37m gcr.io/distroless/nodejs20-debian11",
+                  "FirstCause": true,
+                  "LastCause": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "Type": "Dockerfile Security Check",
+          "ID": "DS013",
+          "AVDID": "AVD-DS-0013",
+          "Title": "'RUN cd ...' to change directory",
+          "Description": "Use WORKDIR instead of proliferating instructions like 'RUN cd … \u0026\u0026 do-something', which are hard to read, troubleshoot, and maintain.",
+          "Message": "RUN should not be used to change directory: 'rm -rf node_modules/libxmljs/build \u0026\u0026   cd node_modules/libxmljs \u0026\u0026   npm run build'. Use 'WORKDIR' statement instead.",
+          "Namespace": "builtin.dockerfile.DS013",
+          "Query": "data.builtin.dockerfile.DS013.deny",
+          "Resolution": "Use WORKDIR to change directory",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/ds013",
+          "References": [
+            "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#workdir",
+            "https://avd.aquasec.com/misconfig/ds013"
+          ],
+          "Status": "FAIL",
+          "Layer": {},
+          "CauseMetadata": {
+            "Provider": "Dockerfile",
+            "Service": "general",
+            "StartLine": 32,
+            "EndLine": 34,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 32,
+                  "Content": "RUN rm -rf node_modules/libxmljs/build \u0026\u0026 \\",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;64mRUN\u001b[0m rm -rf node_modules/libxmljs/build \u001b[38;5;245m\u0026\u0026\u001b[0m \u001b[38;5;124m\\",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 33,
+                  "Content": "  cd node_modules/libxmljs \u0026\u0026 \\",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;33mcd\u001b[0m node_modules/libxmljs \u001b[38;5;245m\u0026\u0026\u001b[0m \u001b[38;5;124m\\",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 34,
+                  "Content": "  npm run build",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  npm run build",
+                  "FirstCause": false,
+                  "LastCause": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "Type": "Dockerfile Security Check",
+          "ID": "DS026",
+          "AVDID": "AVD-DS-0026",
+          "Title": "No HEALTHCHECK defined",
+          "Description": "You should add HEALTHCHECK instruction in your docker container images to perform the health check on running containers.",
+          "Message": "Add HEALTHCHECK instruction in your Dockerfile",
+          "Namespace": "builtin.dockerfile.DS026",
+          "Query": "data.builtin.dockerfile.DS026.deny",
+          "Resolution": "Add HEALTHCHECK instruction in Dockerfile",
+          "Severity": "LOW",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/ds026",
+          "References": [
+            "https://blog.aquasec.com/docker-security-best-practices",
+            "https://avd.aquasec.com/misconfig/ds026"
+          ],
+          "Status": "FAIL",
+          "Layer": {},
+          "CauseMetadata": {
+            "Provider": "Dockerfile",
+            "Service": "general",
+            "Code": {
+              "Lines": null
+            }
+          }
+        },
+        {
+          "Type": "Dockerfile Security Check",
+          "ID": "DS029",
+          "AVDID": "AVD-DS-0029",
+          "Title": "'apt-get' missing '--no-install-recommends'",
+          "Description": "'apt-get' install should use '--no-install-recommends' to minimize image size.",
+          "Message": "'--no-install-recommends' flag is missed: 'apt-get update \u0026\u0026 apt-get install -y build-essential python3'",
+          "Namespace": "builtin.dockerfile.DS029",
+          "Query": "data.builtin.dockerfile.DS029.deny",
+          "Resolution": "Add '--no-install-recommends' flag to 'apt-get'",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/ds029",
+          "References": [
+            "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/",
+            "https://avd.aquasec.com/misconfig/ds029"
+          ],
+          "Status": "FAIL",
+          "Layer": {},
+          "CauseMetadata": {
+            "Provider": "Dockerfile",
+            "Service": "general",
+            "StartLine": 30,
+            "EndLine": 30,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 30,
+                  "Content": "RUN apt-get update \u0026\u0026 apt-get install -y build-essential python3",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m\u001b[38;5;64mRUN\u001b[0m apt-get update \u001b[38;5;245m\u0026\u0026\u001b[0m apt-get install -y build-essential python3",
+                  "FirstCause": true,
+                  "LastCause": true
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
