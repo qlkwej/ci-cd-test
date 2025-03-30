@@ -353,7 +353,7 @@ jobs:
             -I \
             -m 2 \
             -T 10 \
-            -J "/zap/wrk/zap-report.json" \
+            -J "zap-report.json" \
             --auto || true
 
           # Debug: List contents of reports directory
@@ -495,47 +495,112 @@ jobs:
 
       - name: Create DefectDojo Engagement
         run: |
-          # Get Product ID or create if not exists
-          PRODUCT_ID=$(curl -s -X GET \
-            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
-            -H "Accept: application/json" \
-            "${DEFECTDOJO_URL}/api/v2/products/?name=${PRODUCT_NAME}" | \
-            jq -r '.results[0].id // empty')
-
-          if [ -z "$PRODUCT_ID" ]; then
-            echo "Creating new product: ${PRODUCT_NAME}"
-            PRODUCT_ID=$(curl -s -X POST \
+          # Function to make API calls with error handling
+          make_api_call() {
+            local method=$1
+            local url=$2
+            local data=$3
+            local response
+            
+            echo "Making ${method} request to ${url}"
+            if [ -n "$data" ]; then
+              echo "Request data: ${data}"
+            fi
+            
+            response=$(curl -s -X ${method} \
               -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
               -H "Content-Type: application/json" \
               -H "Accept: application/json" \
-              "${DEFECTDOJO_URL}/api/v2/products/" \
-              -d "{\"name\":\"${PRODUCT_NAME}\",\"description\":\"${PRODUCT_NAME} Security Pipeline\"}" | \
-              jq -r '.id')
-          fi
+              "${url}" \
+              ${data:+-d "${data}"})
+            
+            echo "Response: ${response}"
+            
+            if [ $? -ne 0 ]; then
+              echo "ERROR: API call failed"
+              return 1
+            fi
+            
+            echo "${response}"
+          }
+
+          # Get Product ID or create if not exists
+          echo "Checking for existing product: ${PRODUCT_NAME}"
+          product_response=$(make_api_call "GET" "${DEFECTDOJO_URL}/api/v2/products/?name=${PRODUCT_NAME}")
+          PRODUCT_ID=$(echo "${product_response}" | jq -r '.results[0].id // empty')
 
           if [ -z "$PRODUCT_ID" ]; then
+            echo "Creating new product: ${PRODUCT_NAME}"
+            # Create product with required fields based on OpenAPI schema
+            product_data="{
+              \"name\":\"${PRODUCT_NAME}\",
+              \"description\":\"${PRODUCT_NAME} Security Pipeline\",
+              \"prod_type\":1,
+              \"external_audience\":false,
+              \"platform\":\"Web\",
+              \"lifecycle\":\"construction\",
+              \"origin\":\"internal\",
+              \"business_criticality\":\"high\",
+              \"platform\":\"Web\",
+              \"platform_reason\":\"Web Application\",
+              \"enable_product_tag_inheritance\":true,
+              \"enable_simple_risk_acceptance\":false,
+              \"enable_full_risk_acceptance\":false,
+              \"disable_sla_breach_notifications\":false,
+              \"product_manager\":null,
+              \"technical_contact\":null,
+              \"team_manager\":null,
+              \"prod_numeric_grade\":null,
+              \"business_unit\":null,
+              \"user_records\":0,
+              \"regulations\":[],
+              \"tags\":[\"security-pipeline\"]
+            }"
+            
+            product_response=$(make_api_call "POST" "${DEFECTDOJO_URL}/api/v2/products/" "${product_data}")
+            PRODUCT_ID=$(echo "${product_response}" | jq -r '.id // empty')
+          fi
+
+          if [ -z "$PRODUCT_ID" ] || [ "$PRODUCT_ID" = "null" ]; then
             echo "ERROR: Failed to get or create product"
+            echo "Product response: ${product_response}"
             exit 1
           fi
 
           echo "Using product ID: ${PRODUCT_ID}"
 
           # Create Engagement
-          ENGAGEMENT_ID=$(curl -s -X POST \
-            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
-            -H "Content-Type: application/json" \
-            -H "Accept: application/json" \
-            "${DEFECTDOJO_URL}/api/v2/engagements/" \
-            -d "{
-              \"name\":\"${ENGAGEMENT_NAME}\",
-              \"product\":${PRODUCT_ID},
-              \"target_start\":\"$(date -I)\",
-              \"target_end\":\"$(date -I)\",
-              \"status\":\"In Progress\"
-            }" | jq -r '.id')
+          echo "Creating new engagement for product ${PRODUCT_ID}"
+          engagement_data="{
+            \"name\":\"${ENGAGEMENT_NAME}\",
+            \"product\":${PRODUCT_ID},
+            \"target_start\":\"$(date -I)\",
+            \"target_end\":\"$(date -I)\",
+            \"status\":\"In Progress\",
+            \"engagement_type\":1,
+            \"build_id\":\"${GITHUB_SHA}\",
+            \"commit_hash\":\"${GITHUB_SHA}\",
+            \"branch_tag\":\"${GITHUB_REF}\",
+            \"deduplication_on_engagement\":true,
+            \"lead\":null,
+            \"requester\":null,
+            \"reason\":\"Security Pipeline Run\",
+            \"tracking_code\":\"${GITHUB_RUN_ID}\",
+            \"test_strategy\":\"Automated Security Testing\",
+            \"threat_model\":true,
+            \"api_test\":true,
+            \"pen_test\":true,
+            \"check_list\":true,
+            \"status\":\"In Progress\",
+            \"inherited_tags\":[\"security-pipeline\"]
+          }"
 
-          if [ -z "$ENGAGEMENT_ID" ]; then
+          engagement_response=$(make_api_call "POST" "${DEFECTDOJO_URL}/api/v2/engagements/" "${engagement_data}")
+          ENGAGEMENT_ID=$(echo "${engagement_response}" | jq -r '.id // empty')
+
+          if [ -z "$ENGAGEMENT_ID" ] || [ "$ENGAGEMENT_ID" = "null" ]; then
             echo "ERROR: Failed to create engagement"
+            echo "Engagement response: ${engagement_response}"
             exit 1
           fi
 
@@ -548,14 +613,28 @@ jobs:
             echo "Importing SAST results from: ${{ env.SAST_REPORT }}"
             # Validate SARIF format
             if jq empty "${{ env.SAST_REPORT }}" 2>/dev/null; then
-              curl -X POST \
+              import_response=$(curl -s -X POST \
                 -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
                 -H "Accept: application/json" \
                 -F "scan_type=SARIF" \
                 -F "file=@${{ env.SAST_REPORT }}" \
-                -F "engagement=${ENGAGEMENT_ID}" \
+                -F "engagement=$ENGAGEMENT_ID" \
                 -F "close_old_findings=true" \
-                "${DEFECTDOJO_URL}/api/v2/import-scan/" || echo "Failed to import SAST results"
+                -F "scan_date=$(date -I)" \
+                -F "minimum_severity=Info" \
+                -F "active=true" \
+                -F "verified=true" \
+                -F "group_by=component_name+component_version" \
+                -F "deduplication_on_engagement=true" \
+                "${DEFECTDOJO_URL}/api/v2/import-scan/")
+              
+              echo "Import response: ${import_response}"
+              
+              if echo "${import_response}" | jq -e '.id' >/dev/null 2>&1; then
+                echo "Successfully imported SAST results"
+              else
+                echo "Failed to import SAST results: ${import_response}"
+              fi
             else
               echo "Invalid SARIF format in ${{ env.SAST_REPORT }}, skipping import"
             fi
