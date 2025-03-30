@@ -501,32 +501,74 @@ jobs:
             local url=$2
             local data=$3
             local response
+            local http_code
             
             echo "Making ${method} request to ${url}"
             if [ -n "$data" ]; then
               echo "Request data: ${data}"
             fi
             
-            response=$(curl -s -X ${method} \
+            # Use -w to get HTTP status code
+            response=$(curl -s -w "\n%{http_code}" -X ${method} \
               -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
               -H "Content-Type: application/json" \
               -H "Accept: application/json" \
               "${url}" \
               ${data:+-d "${data}"})
             
+            http_code=$(echo "$response" | tail -n1)
+            response=$(echo "$response" | sed '$d')
+            
+            echo "HTTP Status Code: ${http_code}"
             echo "Response: ${response}"
             
-            if [ $? -ne 0 ]; then
-              echo "ERROR: API call failed"
+            if [ "$http_code" -ge 400 ]; then
+              echo "ERROR: API call failed with status ${http_code}"
               return 1
             fi
             
-            echo "${response}"
+            # Validate JSON response
+            if ! echo "$response" | jq empty 2>/dev/null; then
+              echo "ERROR: Invalid JSON response"
+              echo "Raw response: ${response}"
+              return 1
+            fi
+            
+            echo "$response"
           }
+
+          # Verify DefectDojo URL format
+          if [[ ! "$DEFECTDOJO_URL" =~ ^https?:// ]]; then
+            echo "ERROR: DEFECTDOJO_URL must start with http:// or https://"
+            exit 1
+          fi
+
+          # Test API connection
+          echo "Testing DefectDojo API connection..."
+          test_response=$(curl -s -w "\n%{http_code}" \
+            -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+            -H "Accept: application/json" \
+            "${DEFECTDOJO_URL}/api/v2/")
+
+          http_code=$(echo "$test_response" | tail -n1)
+          test_response=$(echo "$test_response" | sed '$d')
+
+          if [ "$http_code" -ge 400 ]; then
+            echo "ERROR: Failed to connect to DefectDojo API"
+            echo "Status code: ${http_code}"
+            echo "Response: ${test_response}"
+            exit 1
+          fi
 
           # Get Product ID or create if not exists
           echo "Checking for existing product: ${PRODUCT_NAME}"
           product_response=$(make_api_call "GET" "${DEFECTDOJO_URL}/api/v2/products/?name=${PRODUCT_NAME}")
+
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Failed to get product list"
+            exit 1
+          fi
+
           PRODUCT_ID=$(echo "${product_response}" | jq -r '.results[0].id // empty')
 
           if [ -z "$PRODUCT_ID" ]; then
@@ -558,6 +600,12 @@ jobs:
             }"
             
             product_response=$(make_api_call "POST" "${DEFECTDOJO_URL}/api/v2/products/" "${product_data}")
+            
+            if [ $? -ne 0 ]; then
+              echo "ERROR: Failed to create product"
+              exit 1
+            fi
+            
             PRODUCT_ID=$(echo "${product_response}" | jq -r '.id // empty')
           fi
 
@@ -596,6 +644,12 @@ jobs:
           }"
 
           engagement_response=$(make_api_call "POST" "${DEFECTDOJO_URL}/api/v2/engagements/" "${engagement_data}")
+
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Failed to create engagement"
+            exit 1
+          fi
+
           ENGAGEMENT_ID=$(echo "${engagement_response}" | jq -r '.id // empty')
 
           if [ -z "$ENGAGEMENT_ID" ] || [ "$ENGAGEMENT_ID" = "null" ]; then
