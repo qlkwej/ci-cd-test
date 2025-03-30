@@ -134,11 +134,17 @@ jobs:
         continue-on-error: true
         run: |
           echo "Running Semgrep Analysis..."
+          # Ensure reports directory exists and has proper permissions
+          mkdir -p ${{ env.REPORT_PATH }}
+          chmod 777 ${{ env.REPORT_PATH }}
+
+          # Run Semgrep with proper volume mounting
           docker run --rm \
             -v "$(pwd):/src" \
             -v "$(pwd)/${{ env.REPORT_PATH }}:/reports" \
             returntocorp/semgrep semgrep \
-              --sarif --output /reports/semgrep-results.sarif \
+              --sarif \
+              --output "/reports/semgrep-results.sarif" \
               --metrics=off \
               --timeout 300 \
               --jobs 2 \
@@ -155,6 +161,15 @@ jobs:
               --config "p/xss" \
               --config "p/secrets" \
               /src
+
+          # Verify the report was created and has content
+          if [ -f "${{ env.SAST_REPORT }}" ]; then
+            echo "Semgrep report created successfully"
+            echo "Report size: $(wc -l < ${{ env.SAST_REPORT }}) lines"
+          else
+            echo "ERROR: Semgrep report was not created"
+            exit 1
+          fi
 
       - name: Process Semgrep Results
         if: always()
@@ -203,8 +218,8 @@ jobs:
           name: static-analysis-reports
           path: |
             ${{ env.REPORT_PATH }}/npm-*.json
-            ${{ env.REPORT_PATH }}/semgrep-results.sarif
-            ${{ env.REPORT_PATH }}/gitleaks-report.json
+            ${{ env.SAST_REPORT }}
+            ${{ env.SECRET_REPORT }}
             package-lock.json
           retention-days: 1
 
@@ -336,28 +351,25 @@ jobs:
             ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
             -t http://juice-shop:3000 \
             -I \
-            -m 5 \
-            -T 20 \
+            -m 2 \
+            -T 10 \
             -J "/zap/wrk/zap-report.json" \
             --auto || true
 
-          # Ensure the report exists and is valid JSON
-          if [ -f "${{ env.REPORT_PATH }}/zap-report.json" ]; then
-            if jq empty "${{ env.REPORT_PATH }}/zap-report.json" 2>/dev/null; then
-              echo "ZAP report generated successfully and is valid JSON"
-            else
-              echo "ZAP report exists but is not valid JSON, creating empty report"
-              echo "[]" > "${{ env.DAST_REPORT }}"
-            fi
-          else
-            echo "ZAP failed to generate report, creating empty one"
-            echo "[]" > "${{ env.DAST_REPORT }}"
-          fi
+          # Debug: List contents of reports directory
+          echo "Contents of reports directory:"
+          ls -la ${{ env.REPORT_PATH }}
 
-          # Display report summary if it exists
+          # Verify the report was created and has content
           if [ -f "${{ env.DAST_REPORT }}" ]; then
-            echo "DAST Report Summary:"
-            jq -r '.site[0].alerts | group_by(.riskcode) | map({risk: (if .[0].riskcode == "3" then "High" elif .[0].riskcode == "2" then "Medium" elif .[0].riskcode == "1" then "Low" else "Info" end), count: length}) | .[] | "* \(.risk): \(.count)"' "${{ env.DAST_REPORT }}" || echo "No findings or invalid format"
+            echo "ZAP report created successfully at ${{ env.DAST_REPORT }}"
+            echo "Report size: $(wc -l < ${{ env.DAST_REPORT }}) lines"
+          else
+            echo "ERROR: ZAP report was not created at ${{ env.DAST_REPORT }}"
+            echo "Current directory: $(pwd)"
+            echo "Reports directory contents:"
+            ls -la ${{ env.REPORT_PATH }}
+            exit 1
           fi
 
       - name: Upload DAST Report
@@ -599,6 +611,27 @@ jobs:
             fi
           else
             echo "NPM Audit report not found at ${NPM_AUDIT_REPORT}, skipping import"
+          fi
+
+      - name: Import SBOM Results
+        run: |
+          if [ -f "${NPM_SBOM_REPORT}" ]; then
+            echo "Importing SBOM results from: ${NPM_SBOM_REPORT}"
+            # Validate JSON format
+            if jq empty "${NPM_SBOM_REPORT}" 2>/dev/null; then
+              curl -X POST \
+                -H "Authorization: Token ${{ secrets.DEFECTDOJO_API_KEY }}" \
+                -H "Accept: application/json" \
+                -F "scan_type=CycloneDX Scan" \
+                -F "file=@${NPM_SBOM_REPORT}" \
+                -F "engagement=${ENGAGEMENT_ID}" \
+                -F "close_old_findings=true" \
+                "${DEFECTDOJO_URL}/api/v2/import-scan/" || echo "Failed to import SBOM results"
+            else
+              echo "Invalid JSON format in ${NPM_SBOM_REPORT}, skipping import"
+            fi
+          else
+            echo "SBOM report not found at ${NPM_SBOM_REPORT}, skipping import"
           fi
 
       - name: Generate Summary Report
